@@ -3,7 +3,7 @@ import { Contract } from 'web3-eth-contract';
 
 export interface Goal {
   description: string
-  deadline: Date
+  deadline: number
 }
 
 export interface GoalWithId {
@@ -21,6 +21,14 @@ export async function init(): Promise<GoalWithId[]> {
 export async function listActive(): Promise<GoalWithId[]> {
   const activeGoals = await contract.methods.getActiveGoals().call();
   return activeGoals.map((v: any) => {
-    return Object.assign(v.goal, { deadline: new Date(v.goal.deadline * 1000) });
+    const vo = Object.assign({}, v);
+    vo.goal = Object.assign({}, vo.goal);
+    return vo;
   });
+}
+
+export async function create(goal: Goal): Promise<GoalWithId> {
+  const receipt = await contract.methods.create(goal).send();
+  const id = receipt.events.Created.returnValues.goalId;
+  return { id, goal };
 }

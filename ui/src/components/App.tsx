@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { unwrapResult } from '@reduxjs/toolkit'
+import GoalsList from './GoalsList';
 import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
 import { useAppDispatch } from '../store';
@@ -28,7 +29,7 @@ function App() {
 
   return (
     <div className="App">
-      
+      <GoalsList />
     </div>
   );
 }
