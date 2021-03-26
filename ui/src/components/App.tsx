@@ -4,6 +4,8 @@ import { unwrapResult } from '@reduxjs/toolkit'
 import GoalsList from './GoalsList';
 import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
+import Navbar from '../components/Navbar';
+import Goals from '../components/Goals';
 import { useAppDispatch } from '../store';
 
 function App() {
@@ -29,7 +31,8 @@ function App() {
 
   return (
     <div className="App">
-      <GoalsList />
+      <Navbar />
+      <Goals />
     </div>
   );
 }
