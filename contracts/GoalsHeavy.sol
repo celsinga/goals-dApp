@@ -7,6 +7,11 @@ contract GoalsHeavy {
     uint deadline;
   }
 
+  struct GoalWithId {
+    uint id;
+    Goal goal;
+  }
+
   mapping(address => uint) goalCounts;
   mapping(address => mapping(uint => Goal)) activeGoals;
 
@@ -32,7 +37,7 @@ contract GoalsHeavy {
     delete activeGoals[msg.sender][goalId];
   }
 
-  function getActiveGoals() public view returns(Goal[] memory goals) {
+  function getActiveGoals() public view returns(GoalWithId[] memory goals) {
     mapping(uint => Goal) storage addressActiveGoals = activeGoals[msg.sender];
     uint goalCount = goalCounts[msg.sender];
 
@@ -40,17 +45,18 @@ contract GoalsHeavy {
 
     uint keyCount;
     uint itCount;
-    for (uint i = goalCount; i >= 0 && itCount < 100; i--) {
+    for (uint i = goalCount; i >= 1 && itCount < 100; i--) {
       if (addressActiveGoals[i].deadline > 0) {
         goalKeys[keyCount++] = i;
       }
       itCount++;
     }
 
-    goals = new Goal[](keyCount);
+    goals = new GoalWithId[](keyCount);
 
     for (uint i = 0; i < keyCount; i++) {
-      goals[i] = addressActiveGoals[goalKeys[i]];
+      goals[i].id = goalKeys[i];
+      goals[i].goal = addressActiveGoals[goalKeys[i]];
     }
   }
 }
