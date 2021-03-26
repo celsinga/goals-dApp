@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import * as goalService from '../services/goals';
+import GoalService from '../services/goals';
 import { GoalWithId, Goal } from '../services/goals';
 
 interface GoalsState {
-  active: GoalWithId[]
+  active: GoalWithId[];
 }
 
 const initialState: GoalsState = {
@@ -11,15 +11,15 @@ const initialState: GoalsState = {
 };
 
 export const init = createAsyncThunk('goals/init', async () => {
-  return await goalService.init();
+  return await GoalService.init();
 });
 
 export const listActive = createAsyncThunk('goals/listActive', async () => {
-  return await goalService.listActive();
+  return await GoalService.listActive();
 });
 
 export const create = createAsyncThunk('goals/create', async (goal: Goal) => {
-  return await goalService.create(goal);
+  return await GoalService.create(goal);
 });
 
 const goalsSlice = createSlice({
