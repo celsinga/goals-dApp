@@ -34,13 +34,20 @@ contract GoalsLight {
     mapping(uint => bool) storage addressActiveGoals = activeGoals[msg.sender];
     uint goalCount = goalCounts[msg.sender];
 
+    uint[100] memory tmpGoalIds;
+
     uint keyCount;
     uint itCount;
-    for (uint i = goalCount; i >= 0 && itCount < 100; i--) {
+    for (uint i = goalCount; i >= 1 && itCount < 100; i--) {
       if (addressActiveGoals[i]) {
-        goalIds[keyCount++] = i;
+        tmpGoalIds[keyCount++] = i;
       }
       itCount++;
+    }
+
+    goalIds = new uint[](keyCount);
+    for (uint i = 0; i < keyCount; i++) {
+      goalIds[i] = tmpGoalIds[i];
     }
   }
 }
