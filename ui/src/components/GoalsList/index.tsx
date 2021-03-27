@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../store';
-import { create,activeGoalsSelector } from '../../slices/goals';
+import { create as goalCreate, complete as goalComplete, activeGoalsSelector } from '../../slices/goals';
 
 function GoalsList() {
   const dispatch = useAppDispatch();
@@ -14,7 +14,7 @@ function GoalsList() {
     ev.preventDefault();
     try {
       setIsCreating(false);
-      await dispatch(create({
+      await dispatch(goalCreate({
         description: createDescription,
         deadline: Math.round(new Date().getTime() / 1000) + 3600
       }));
@@ -29,7 +29,10 @@ function GoalsList() {
       {activeGoals.length === 0 ? 'No goals!' : (
         <ul>
           {activeGoals.map((v) => (
-            <li key={v.id}>{`Goal #${v.id}: ${v.goal.description}`}</li>
+            <li key={v.id}>
+              {`Goal #${v.id}: ${v.goal.description}`}
+              <a onClick={() => dispatch(goalComplete(v.id))} href='#'>Complete</a>
+            </li>
           ))}
         </ul>
       )}
