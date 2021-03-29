@@ -1,9 +1,9 @@
 .goals-list {
-  display: grid;
+  // display: grid;
   justify-content: center;
   font-size: 1.3em;
   ul {
-    display: grid;
+    // display: grid;
     grid-gap: 2em;
     list-style-type: none;
     padding: 10px 10px;
@@ -12,8 +12,7 @@
       background-color: #7542f5;
       padding: 10px 10px;
       border-radius: 5px;
-      min-width: 100vh;
-      min-height: 10vh;
+      margin-bottom: 16px;
       display: flex;
       justify-content: center;
     }

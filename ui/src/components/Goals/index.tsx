@@ -14,7 +14,7 @@ export default function Goals() {
       <CssBaseline />
       <Container className="goals-main" maxWidth="md">
         <Typography className="goals-header"><div contentEditable="true">#neverStopGrinding</div></Typography>
-        <div className="goals-parent" style={{ backgroundColor: '#444444', height: '80vh', borderRadius: '20px' }}>
+        <div className="goals-parent" style={{ backgroundColor: '#444444', borderRadius: '20px' }}>
           <GoalsList />
         </div>
       </Container>
