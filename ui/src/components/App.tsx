@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { unwrapResult } from '@reduxjs/toolkit'
-import GoalsList from './GoalsList';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
 import Navbar from '../components/Navbar';

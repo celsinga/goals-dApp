@@ -10,7 +10,7 @@ export default function Navbar() {
 
   return (
     <div className="navbar">
-      <AppBar position="static">
+      <AppBar position="static" style={{backgroundColor: '#7542f5'}}>
         <Toolbar className="toolbar">
           <div>
             <IconButton edge="start" className="logo" color="inherit" aria-label="menu">

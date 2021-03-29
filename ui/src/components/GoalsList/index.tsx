@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../store';
 import { create,activeGoalsSelector } from '../../slices/goals';
+import './index.scss';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
 
 function GoalsList() {
   const dispatch = useAppDispatch();
@@ -24,8 +27,21 @@ function GoalsList() {
     setIsCreating(false);
   }
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      '& .MuiTextField-root': {
+        margin: theme.spacing(1),
+        width: '25ch',
+        backgroundColor: 'white',
+        borderRadius: '10px'
+      },
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
-    <div>
+    <div className="goals-list">
       {activeGoals.length === 0 ? 'No goals!' : (
         <ul>
           {activeGoals.map((v) => (
@@ -33,10 +49,13 @@ function GoalsList() {
           ))}
         </ul>
       )}
-      <form onSubmit={handleCreateSubmit}>
-        <input
+      <form onSubmit={handleCreateSubmit} className={classes.root}>
+        <TextField
           type="text"
           name="description"
+          id="filled-required"
+          label="New Goal"
+          variant="filled"
           onChange={(ev) => setCreateDescription(ev.target.value)}
           value={createDescription}
         />

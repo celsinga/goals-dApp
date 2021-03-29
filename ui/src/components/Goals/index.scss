@@ -1,12 +1,23 @@
 .goals-main {
   padding-top: 1em;
   .goals-header {
-    padding-bottom: 1em;
     font-size: 2em;
     color: white;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
   }
 }
 
 .homepage {
   background-color: #242424;
+  form {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.add-goal-btn {
+  color: white;
 }
