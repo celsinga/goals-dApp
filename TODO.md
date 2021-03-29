@@ -1,0 +1,3 @@
+- add tasks contract
+- use webpack directly instead of create react app/react scripts
+- add postcss webpack plugin, remove sass
