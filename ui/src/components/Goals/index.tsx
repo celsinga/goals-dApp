@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import GoalsList from '../GoalsList';
-import './index.scss';
+import './index.css';
 
 export default function Goals() {
   

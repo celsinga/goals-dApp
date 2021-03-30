@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import guava from '../../assets/guava.svg';
-import './index.scss';
+import './index.css';
 
 export default function Navbar() {
 

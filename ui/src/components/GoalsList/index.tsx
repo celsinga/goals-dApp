@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../store';
 import { create,activeGoalsSelector } from '../../slices/goals';
-import './index.scss';
+import './index.css';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 

@@ -1,9 +1,7 @@
 .goals-list {
-  // display: grid;
   justify-content: center;
   font-size: 1.3em;
   ul {
-    // display: grid;
     grid-gap: 2em;
     list-style-type: none;
     padding: 10px 10px;
