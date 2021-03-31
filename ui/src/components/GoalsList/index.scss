@@ -1,9 +1,7 @@
 .goals-list {
-  // display: grid;
   justify-content: center;
   font-size: 1.3em;
   ul {
-    // display: grid;
     grid-gap: 2em;
     list-style-type: none;
     padding: 10px 10px;
@@ -16,5 +14,12 @@
       display: flex;
       justify-content: center;
     }
+  }
+  .create-btn {
+    border-radius: 30px;
+    height: 64px;
+    width: 64px;
+    vertical-align: middle;
+    font-family: "Roboto";
   }
 }

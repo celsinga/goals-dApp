@@ -5,6 +5,9 @@ import { create,activeGoalsSelector } from '../../slices/goals';
 import './index.scss';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  Link
+} from "react-router-dom";
 
 function GoalsList() {
   const dispatch = useAppDispatch();
@@ -42,13 +45,15 @@ function GoalsList() {
 
   return (
     <div className="goals-list">
-      {activeGoals.length === 0 ? 'No goals!' : (
-        <ul>
-          {activeGoals.map((v) => (
-            <li key={v.id}>{`Goal #${v.id}: ${v.goal.description}`}</li>
-          ))}
-        </ul>
-      )}
+
+        {activeGoals.length === 0 ? 'No goals!' : (
+          <ul>
+            {activeGoals.map((v) => (
+              <Link to="/goal" style={{textDecoration: 'none'}}><li key={v.id}>{`Goal #${v.id}: ${v.goal.description}`}</li></Link>
+            ))}
+          </ul>
+        )}
+   
       <form onSubmit={handleCreateSubmit} className={classes.root}>
         <TextField
           type="text"
@@ -60,6 +65,7 @@ function GoalsList() {
           value={createDescription}
         />
         <input
+          className="create-btn"
           type="submit"
           value={isCreating ? 'Creating...' : 'Create'}
           disabled={isCreating}
