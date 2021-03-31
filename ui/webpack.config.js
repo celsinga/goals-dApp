@@ -42,17 +42,22 @@ module.exports = {
       http: require.resolve('stream-http'),
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
-      assert: require.resolve('assert/')
-    }
+      assert: require.resolve('assert/'),
+    },
   },
   plugins: [
+    
+    new webpack.DefinePlugin({
+      'ENV_TYPE': JSON.stringify(process.env.NODE_ENV)
+    }),
     new CopyPlugin({
       patterns: [
         { from: 'public' }
       ]
     }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer']
     })
   ],
   devServer: {

@@ -3,9 +3,10 @@ import { Contract } from 'web3-eth-contract';
 
 let web3: Web3;
 
-export async function init(): Promise<string[]> {
+declare const ENV_TYPE: string;
 
-  web3 = new Web3(process.env.NODE_ENV === 'production' ? Web3.givenProvider : 'ws://localhost:7545');
+export async function init(): Promise<string[]> {
+  web3 = new Web3(ENV_TYPE === 'production' ? Web3.givenProvider : 'ws://localhost:7545');
   const accounts = await web3.eth.personal.getAccounts();
   web3.eth.defaultAccount = accounts[0];
   return accounts;
