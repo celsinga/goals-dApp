@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -52,12 +53,15 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'public' }
+        { from: 'public/favicon.ico' }
       ]
     }),
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
+    }),
+    new HtmlWebpackPlugin({
+      template: 'public/index.html'
     })
   ],
   devServer: {
@@ -65,7 +69,7 @@ module.exports = {
     port: 3000
   },
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   }
 };
