@@ -23,10 +23,10 @@ export default function Goals() {
         <div className="goals-parent" style={{ backgroundColor: '#444444', borderRadius: '20px' }}>
           <Router>
             <Switch>
-              <Route path="/">
+              <Route exact path="/">
                 <GoalsList />
               </Route>
-              <Route path="/goal">
+              <Route path="/goal/:id">
                 <Goal />
               </Route>
             </Switch>
