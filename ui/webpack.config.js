@@ -1,4 +1,6 @@
+const webpack = require('webpack');
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -42,6 +44,20 @@ module.exports = {
       stream: require.resolve('stream-browserify'),
       assert: require.resolve('assert/')
     }
+  },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: 'public' }
+      ]
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    port: 3000
   },
   output: {
     filename: 'main.js',
