@@ -3,7 +3,12 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../store';
 import { create,activeGoalsSelector } from '../../slices/goals';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import styles from './index.css';
 import { Link } from "react-router-dom";
 
@@ -16,6 +21,7 @@ function GoalsList() {
 
   async function handleCreateSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
+
     try {
       setIsCreating(false);
       await dispatch(create({
@@ -26,50 +32,57 @@ function GoalsList() {
       // TODO: Handle this error
     }
     setIsCreating(false);
+    setCreateDescription('');
   }
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
-        backgroundColor: 'white',
-        borderRadius: '10px'
-      },
-    },
-  }));
-
-  const classes = useStyles();
-
   return (
-    <div className={styles.goalsList}>
-      {activeGoals.length === 0 ? 'No goals!' : (
-        <ul>
-          {activeGoals.map((v) => (
-            <Link to={`/goal/${v.id}`} style={{ textDecoration: 'none' }}>
-              <li key={v.id}>{`Goal #${v.id}: ${v.goal.description}`}</li>
-            </Link>
-          ))}
-        </ul>
-      )}
+    <div>
 
-      <form onSubmit={handleCreateSubmit} className={classes.root}>
+      <form onSubmit={handleCreateSubmit} className={styles.addForm}>
         <TextField
           type="text"
           name="description"
-          id="filled-required"
-          label="New Goal"
-          variant="filled"
+          fullWidth
+          label="What's your next goal?"
           onChange={(ev) => setCreateDescription(ev.target.value)}
           value={createDescription}
         />
-        <input
-          className={styles.createBtn}
+        <Button
           type="submit"
+          color='primary'
+          variant='contained'
           value={isCreating ? 'Creating...' : 'Create'}
-          disabled={isCreating}
-        />
+          disabled={isCreating || !createDescription}
+        >
+          Add Goal
+        </Button>
       </form>
+      {activeGoals.length === 0 ? 'No goals!' : (
+        <div className={styles.goalsCtr}>
+          <Grid container spacing={3}>
+            {activeGoals.map((v) => (
+              <Grid item key={v.id} xs={12} sm={4} md={3}>
+                <Link to={`/goal/${v.id}`} className={styles.goalLink}>
+                  <Card className={styles.goalCard}>
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography className={styles.goalId} color='textSecondary'>
+                          {`Goal #${v.id}`}
+                        </Typography>
+                        <Typography>
+                          {v.goal.description}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Link>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      )}
+
+      
     </div>
   );
 }

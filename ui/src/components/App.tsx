@@ -6,10 +6,16 @@ import { init as goalsInit } from '../slices/goals';
 import Navbar from '../components/Navbar';
 import Goals from '../components/Goals';
 import { useAppDispatch } from '../store';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 function App() {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+
+  const theme = createMuiTheme({
+    palette: { type: 'dark' }
+  });
 
   useEffect(() => {
     (async () => {
@@ -29,10 +35,12 @@ function App() {
   }
 
   return (
-    <div>
-      <Navbar />
-      <Goals />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div>
+        <Navbar />
+        <Goals />
+      </div>
+    </ThemeProvider>
   );
 }
 

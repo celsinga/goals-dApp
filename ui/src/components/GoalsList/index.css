@@ -1,27 +1,26 @@
-.goalsList {
-  justify-content: center;
-  font-size: 1.3em;
-  & ul {
-    grid-gap: 2em;
-    list-style-type: none;
-    padding: 10px 10px;
-    & li {
-      color: white;
-      background-color: #7542f5;
-      padding: 10px 10px;
-      border-radius: 5px;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: center;
-    }
-  }
-  
+.goalLink {
+  text-decoration: none;
 }
 
-.createBtn {
-  border-radius: 30px;
-  height: 64px;
-  width: 64px;
-  vertical-align: middle;
-  font-family: "Roboto";
+.goalId {
+  font-size: 0.86em !important; 
+}
+
+.goalCard {
+  height: 100%;
+}
+
+.goalsCtr {
+  margin: 32px 0px;
+
+}
+
+.addForm {
+  display: flex;
+  margin: 16px 0px;
+
+  & button {
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
 }

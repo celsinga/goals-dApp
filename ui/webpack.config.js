@@ -51,7 +51,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.css'],
     fallback: {
       https: require.resolve('https-browserify'),
       os: require.resolve('os-browserify/browser'),
@@ -79,6 +79,7 @@ module.exports = {
       template: 'public/index.html'
     })
   ],
+  target: 'web',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     port: 3000
