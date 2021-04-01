@@ -21,8 +21,8 @@ export async function init(): Promise<GoalWithId[]> {
 export async function listActive(): Promise<GoalWithId[]> {
   const activeGoals = await contract.methods.getActiveGoals().call();
   return activeGoals.map((v: any) => {
-    const vo = Object.assign({}, v);
-    vo.goal = Object.assign({}, vo.goal);
+    const vo = Object.assign({}, v, { id: parseInt(v.id) });
+    vo.goal = Object.assign({}, vo.goal, { deadline: parseInt(v.goal.deadline) });
     return vo;
   });
 }

@@ -5,6 +5,7 @@ import { create,activeGoalsSelector } from '../../slices/goals';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import styles from './index.css';
+import { Link } from "react-router-dom";
 
 function GoalsList() {
   const dispatch = useAppDispatch();
@@ -27,8 +28,6 @@ function GoalsList() {
     setIsCreating(false);
   }
 
-  console.log(styles);
-
   const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiTextField-root': {
@@ -47,10 +46,13 @@ function GoalsList() {
       {activeGoals.length === 0 ? 'No goals!' : (
         <ul>
           {activeGoals.map((v) => (
-            <li key={v.id}>{`Goal #${v.id}: ${v.goal.description}`}</li>
+            <Link to={`/goal/${v.id}`} style={{ textDecoration: 'none' }}>
+              <li key={v.id}>{`Goal #${v.id}: ${v.goal.description}`}</li>
+            </Link>
           ))}
         </ul>
       )}
+
       <form onSubmit={handleCreateSubmit} className={classes.root}>
         <TextField
           type="text"
@@ -62,6 +64,7 @@ function GoalsList() {
           value={createDescription}
         />
         <input
+          className={styles.createBtn}
           type="submit"
           value={isCreating ? 'Creating...' : 'Create'}
           disabled={isCreating}

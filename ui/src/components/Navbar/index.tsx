@@ -13,16 +13,18 @@ export default function Navbar() {
       <AppBar position="static" style={{backgroundColor: '#7542f5'}}>
         <Toolbar className={styles.toolbar}>
           <div>
+            <a href="http://localhost:3000" style={{textDecoration: 'none', color: 'white'}}>
             <IconButton edge="start" className="logo" color="inherit" aria-label="menu">
               <img src={guava} alt="app-logo" />
               <Typography variant="h6" className={styles.appName}>
               GoalSlicer™
               </Typography>
             </IconButton>
+            </a>
           </div>
           <div>
-            <Button className={styles.login} color="inherit">Login</Button>
-            <Button className={styles.login} color="inherit">Sign Up</Button>
+            <Button className={styles.login} color="inherit">Pages</Button>
+            <Button className={styles.login} color="inherit">Settings</Button>
           </div>
         </Toolbar>
       </AppBar>

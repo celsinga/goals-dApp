@@ -15,4 +15,13 @@
       justify-content: center;
     }
   }
+  
+}
+
+.createBtn {
+  border-radius: 30px;
+  height: 64px;
+  width: 64px;
+  vertical-align: middle;
+  font-family: "Roboto";
 }
