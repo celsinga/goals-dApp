@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../store';
 import { create,activeGoalsSelector } from '../../slices/goals';
@@ -24,11 +25,12 @@ function GoalsList() {
 
     try {
       setIsCreating(false);
-      await dispatch(create({
+      unwrapResult(await dispatch(create({
         description: createDescription,
         deadline: Math.round(new Date().getTime() / 1000) + 3600
-      }));
+      })));
     } catch (e) {
+      console.error(e);
       // TODO: Handle this error
     }
     setIsCreating(false);
@@ -57,14 +59,18 @@ function GoalsList() {
           Add Goal
         </Button>
       </form>
-      {activeGoals.length === 0 ? 'No goals!' : (
+      {activeGoals.length === 0 ? (
+        <div className={styles.goalsEmpty}>
+          <Typography>No goals! Time to get to work!</Typography>
+        </div>
+      ) : (
         <div className={styles.goalsCtr}>
           <Grid container spacing={3}>
             {activeGoals.map((v) => (
               <Grid item key={v.id} xs={12} sm={4} md={3}>
                 <Link to={`/goal/${v.id}`} className={styles.goalLink}>
                   <Card className={styles.goalCard}>
-                    <CardActionArea>
+                    <CardActionArea className={styles.goalActionArea}>
                       <CardContent>
                         <Typography className={styles.goalId} color='textSecondary'>
                           {`Goal #${v.id}`}

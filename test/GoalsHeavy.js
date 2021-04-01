@@ -89,5 +89,25 @@ contract('GoalsHeavy', (accounts) => {
     assert.equal(goals.length, 1, 'One active goal should exist');
     assert.equal(goals[0].id, 1, 'Goal must have id of 1');
   });
+
+  it('should create goal with long description', async () => {
+    const instance = await GoalsHeavy.deployed();
+
+    const description = 'To get stuff done. Hopefully we can go ahead and get this all done. This is gonna be a long one.';
+
+    let receipt = await instance.create({
+      description,
+      deadline: HOUR_FROM_NOW
+    });
+    reportGas('Create', receipt);
+
+    assert.equal(receipt.logs.length, 1, 'One log should be emitted');
+    assert.equal(receipt.logs[0].event, 'Created', 'Log should be Created event');
+
+    receipt = await instance.complete(3);
+    reportGas('Complete', receipt);
+
+    assert.equal(receipt.logs[0].args.description, description, 'Description should be correct');   
+  });
 });
 

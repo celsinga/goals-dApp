@@ -18,5 +18,6 @@ export function loadContract(contractName: String): Contract {
   const contractAddress = networks[0].address;
   const contract = new web3.eth.Contract(jsonInterface.abi, contractAddress);
   contract.options.from = web3.eth.defaultAccount!;
+  contract.options.gas = 200000;
   return contract;
 }
