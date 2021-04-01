@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import GoalsList from '../GoalsList';
-import './index.css';
+import styles from './index.css';
 
 export default function Goals() {
   
@@ -12,9 +12,11 @@ export default function Goals() {
     <React.Fragment>
       <div className="homepage">
       <CssBaseline />
-      <Container className="goals-main" maxWidth="md">
-        <Typography className="goals-header"><div contentEditable="true">#neverStopGrinding</div></Typography>
-        <div className="goals-parent" style={{ backgroundColor: '#444444', borderRadius: '20px' }}>
+      <Container className={styles.goalsMain} maxWidth="md">
+        <Typography className={styles.goalsHeader}>
+          <div contentEditable="true">#neverStopGrinding</div>
+        </Typography>
+        <div className={styles.goalsParent}>
           <GoalsList />
         </div>
       </Container>

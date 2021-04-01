@@ -1,18 +1,20 @@
 .navbar {
   flex-grow: 1;
   display: flex;
-  .toolbar {
-    display: flex;
-    justify-content: space-between;
-  }
-  .logo {
-    margin-right: spacing(2);
-  }
-  .app-name {
-    flex-grow: 1;
-    padding-left: 1em;
-  }
-  img {
+  
+  & img {
     width: 2em;
   }
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+.logo {
+  margin-right: spacing(2);
+}
+.appName {
+  flex-grow: 1;
+  padding-left: 1em;
 }

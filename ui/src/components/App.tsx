@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import styles from './App.css';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
@@ -10,6 +10,8 @@ import { useAppDispatch } from '../store';
 function App() {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+
+  console.log(styles);
   
   useEffect(() => {
     (async () => {
@@ -29,7 +31,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div>
       <Navbar />
       <Goals />
     </div>

@@ -17,16 +17,31 @@ module.exports = {
         type: 'asset/inline'
       },
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         use: [
           'style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]--[hash:base64:5]'
+              },
+              importLoaders: 1
+            }
+          },
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
                 plugins: [
-                  ['postcss-preset-env', {}]
+                  [
+                    'postcss-preset-env',
+                    {
+                      features: {
+                        'nesting-rules': true
+                      },
+                    }
+                  ]
                 ]
               }
             }
