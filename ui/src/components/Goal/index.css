@@ -1,0 +1,16 @@
+.goalId {
+  font-size: 0.86em !important; 
+  word-wrap: break-word;
+}
+
+.goalActionArea {
+  height: 100%;
+  display: inline-flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+.goalCard {
+  height: 400px;
+  margin: 15px 15px;
+}

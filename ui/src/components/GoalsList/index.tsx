@@ -69,7 +69,7 @@ function GoalsList() {
             {activeGoals.map((v) => (
               <Grid item key={v.id} xs={12} sm={4} md={3}>
                 <Link to={`/goal/${v.id}`} className={styles.goalLink}>
-                  <Card className={styles.goalCard}>
+                <Card className={styles.goalCard}>
                     <CardActionArea className={styles.goalActionArea}>
                       <CardContent>
                         <Typography className={styles.goalId} color='textSecondary'>
