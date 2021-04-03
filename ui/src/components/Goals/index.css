@@ -3,16 +3,15 @@
 }
 
 .goalsHeader {
-    font-size: 2em;
-    color: white;
-    display: flex;
-    justify-content: center;
-    padding-bottom: 0.5em;
-    padding-top: 0.5em;
-
-    background-color: #444444;
-    border-radius: 20px;
+  color: white;
+  padding: 16px;
+  text-align: center;
+  
+  & div {
+    display: inline;
+    padding: 8px;
   }
+}
 
 .homepage {
   background-color: #242424;
