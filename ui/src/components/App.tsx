@@ -4,7 +4,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
 import Navbar from '../components/Navbar';
-import Goals from '../components/Goals';
+import AppContent from '../components/AppContent';
 import { useAppDispatch } from '../store';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -38,7 +38,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div>
         <Navbar />
-        <Goals />
+        <AppContent />
       </div>
     </ThemeProvider>
   );

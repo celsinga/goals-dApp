@@ -20,20 +20,33 @@
 
 .goalsCtr {
   margin: 32px 0px;
-
-}
-
-.addForm {
-  display: flex;
-  margin: 16px 0px;
-
-  & button {
-    flex-shrink: 0;
-    margin-left: 16px;
-  }
 }
 
 .goalsEmpty {
   text-align: center;
   margin-top: 24px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.desc {
+  flex-grow: 1;
+}
+
+.deadline {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  & svg {
+    height: 0.6em;
+    width: 0.6em;
+    margin-right: 4px;
+  }
+  & p {
+    font-size: 0.86em !important;
+  }
 }

@@ -14,7 +14,7 @@ import {
 
 const MANTRA_STORAGE_KEY = 'goals_mantra';
 
-export default function Goals() {
+export default function AppContent() {
 
   let mantraSaveTimeout: any = null;
 
@@ -38,7 +38,7 @@ export default function Goals() {
     <React.Fragment>
       <div className="homepage">
         <CssBaseline />
-        <Container className={styles.goalsMain} maxWidth="md">
+        <Container className={styles.goalsMain} maxWidth="lg">
           <Card className={styles.goalsHeader}>
             <div
               contentEditable="true"

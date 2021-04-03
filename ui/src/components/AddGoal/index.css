@@ -1,0 +1,21 @@
+.addForm {
+  & button {
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+}
+
+.addCtr {
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.secondRow {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.grow {
+  flex-grow: 1;
+}
