@@ -76,13 +76,15 @@ module.exports = {
       Buffer: ['buffer', 'Buffer']
     }),
     new HtmlWebpackPlugin({
-      template: 'public/index.html'
+      template: 'public/index.html',
+      publicPath: '/'
     })
   ],
   target: 'web',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    port: 3000
+    port: 3000,
+    historyApiFallback: true
   },
   output: {
     filename: '[name].bundle.js',

@@ -27,12 +27,12 @@
   display: flex;
   margin: 16px 0px;
 
+  & button {
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
 }
 
-button {
-  flex-shrink: 0;
-  margin-left: 16px;
-}
 .goalsEmpty {
   text-align: center;
   margin-top: 24px;

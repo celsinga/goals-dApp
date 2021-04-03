@@ -3,14 +3,8 @@
   word-wrap: break-word;
 }
 
-.goalActionArea {
-  height: 100%;
-  display: inline-flex !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-}
-
-.goalCard {
+.goalPaper {
   height: 400px;
   margin: 15px 15px;
+  padding: 16px;
 }

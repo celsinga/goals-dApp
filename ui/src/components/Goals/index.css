@@ -16,12 +16,14 @@
 
 .homepage {
   background-color: #242424;
+
+  & form {
+    display: flex;
+    justify-content: center;
+  }
 }
 
-form {
-  display: flex;
-  justify-content: center;
-}
+
 .addGoalBtn {
   color: white;
 }

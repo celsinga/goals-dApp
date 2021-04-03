@@ -1,9 +1,9 @@
 .navbar {
   flex-grow: 1;
   display: flex;
-}
-img {
-  width: 2em;
+  & img {
+    width: 2em;
+  }
 }
 
 .toolbar {
