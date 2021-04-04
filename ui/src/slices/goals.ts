@@ -22,6 +22,11 @@ export const create = createAsyncThunk('goals/create', async (goal: Goal) => {
   return await goalService.create(goal);
 });
 
+export const complete = createAsyncThunk('goals/complete', async (goalId: number) => {
+  await goalService.complete(goalId);
+  return goalId;
+});
+
 const goalsSlice = createSlice({
   name: 'goals',
   initialState,
@@ -35,6 +40,9 @@ const goalsSlice = createSlice({
     });
     builder.addCase(create.fulfilled, (state, action) => {
       state.active.unshift(action.payload);
+    });
+    builder.addCase(complete.fulfilled, (state, action) => {
+      state.active.splice(state.active.findIndex((v) => v.id === action.payload), 1);
     });
   }
 });

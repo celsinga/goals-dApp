@@ -1,9 +1,3 @@
-.addForm {
-  & button {
-    flex-shrink: 0;
-    margin-left: 16px;
-  }
-}
 
 .addCtr {
   padding: 16px;

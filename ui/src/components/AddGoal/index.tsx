@@ -11,6 +11,7 @@ export default function AddGoal() {
   const dispatch = useAppDispatch();
 
   const defaultDeadlineDate = new Date();
+  defaultDeadlineDate.setHours(0,0,0,0);
   defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
   defaultDeadlineDate.setMinutes(defaultDeadlineDate.getMinutes() - 
                                  defaultDeadlineDate.getTimezoneOffset());
@@ -50,7 +51,7 @@ export default function AddGoal() {
         />
         <div className={styles.secondRow}>
           <TextField
-            type="datetime-local"
+            type="date"
             value={deadline}
             onChange={(ev) => setDeadline(ev.target.value)}
             label="Deadline"

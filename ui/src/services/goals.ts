@@ -32,3 +32,7 @@ export async function create(goal: Goal): Promise<GoalWithId> {
   const id = receipt.events.Created.returnValues.goalId;
   return { id, goal };
 }
+
+export async function complete(goalId: number): Promise<void> {
+  await contract.methods.complete(goalId).send();
+}

@@ -38,7 +38,7 @@ export default function GoalsList() {
                         <div className={styles.deadline}>
                           <ScheduleIcon />
                           <Typography color='textSecondary'>
-                            {new Date(v.goal.deadline * 1000).toLocaleString()}
+                            {new Date(v.goal.deadline * 1000).toLocaleDateString()}
                           </Typography>
                         </div>
                       </CardContent>
