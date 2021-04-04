@@ -29,7 +29,7 @@ export async function listActive(): Promise<GoalWithId[]> {
 
 export async function create(goal: Goal): Promise<GoalWithId> {
   const receipt = await contract.methods.create(goal).send();
-  const id = receipt.events.Created.returnValues.goalId;
+  const id = parseInt(receipt.events.Created.returnValues.goalId);
   return { id, goal };
 }
 
