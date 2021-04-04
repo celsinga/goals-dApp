@@ -13,7 +13,3 @@
   display: flex;
   justify-content: space-between;
 }
-
-.completeBtn {
-  flex-shrink: 0;
-}

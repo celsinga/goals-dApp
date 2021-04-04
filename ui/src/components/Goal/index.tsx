@@ -54,10 +54,11 @@ export default function Goal() {
             }
           </div>
 
-          
-          <IconButton className={styles.completeBtn} onClick={handleCompleteClick}>
-            <DoneOutlineOutlinedIcon />
-          </IconButton>
+          <div>
+            <IconButton onClick={handleCompleteClick}>
+              <DoneOutlineOutlinedIcon />
+            </IconButton>
+          </div>
 
         </div>
             
