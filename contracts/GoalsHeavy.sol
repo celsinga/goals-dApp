@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "./TasksHeavy.sol";
+
 contract GoalsHeavy {
   struct Goal {
     string description;
@@ -15,8 +17,14 @@ contract GoalsHeavy {
   mapping(address => uint) goalCounts;
   mapping(address => mapping(uint => Goal)) activeGoals;
 
+  TasksHeavy tasksHeavy;
+
   event Created(uint indexed goalId);
   event Completed(uint indexed goalId, string description, uint deadline);
+
+  constructor(address tasksHeavyAddress) {
+    tasksHeavy = TasksHeavy(tasksHeavyAddress);
+  }
 
   function create(Goal calldata goal) public returns(uint goalId) {
     require(goal.deadline > 0, "Must have deadline");
@@ -32,9 +40,15 @@ contract GoalsHeavy {
 
     require(goal.deadline > 0, "Goal must exist and be active");
 
+    tasksHeavy.completeGoalTasks(goalId);
+
     emit Completed(goalId, goal.description, goal.deadline);
 
     delete activeGoals[msg.sender][goalId];
+  }
+
+  function isGoalActive(uint goalId) public view returns(bool) {
+    return activeGoals[msg.sender][goalId].deadline > 0;
   }
 
   function getActiveGoals() public view returns(GoalWithId[] memory goals) {
