@@ -14,26 +14,30 @@ export interface TaskWithId {
 
 let contract: Contract;
 
-export async function init(): Promise<TaskWithId[]> {
+export async function init(): Promise<void> {
   contract = ethService.loadContract('TasksHeavy');
-  return await listActive();
 }
 
-export async function listActive(): Promise<TaskWithId[]> {
-  const activeTasks = await contract.methods.listActive().call();
+export async function listActive(goalId: number): Promise<TaskWithId[]> {
+  const activeTasks = await contract.methods.listActive(goalId).call();
   return activeTasks.map((v: any) => {
-    const vo = Object.assign({}, v, { id: parseInt(v.id) });
-    vo.tasksResult = Object.assign({}, vo.tasksResult, { Task: parseInt(v.tasksResult.task) });
-    return vo;
+    return Object.assign({}, v, { id: parseInt(v.id) });
   });
 }
 
-export async function create(task: Task): Promise<TaskWithId> {
-  const receipt = await contract.methods.create(task).send();
+export async function create(goalId: number, description: string): Promise<TaskWithId> {
+  const receipt = await contract.methods.create(goalId, description).send();
   const id = parseInt(receipt.events.Created.returnValues.taskId);
-  return { id, task };
+  return {
+    id,
+    task: {
+      description,
+      done: false,
+      active: true
+    }
+  };
 }
 
-export async function complete(taskId: TaskWithId): Promise<void> {
-  await contract.methods.complete(taskId).send();
+export async function updateDone(goalId: number, taskId: number, done: boolean): Promise<void> {
+  await contract.methods.updateDone(goalId, taskId, done).send();
 }

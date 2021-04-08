@@ -3,6 +3,7 @@ import './App.css';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
+import { init as tasksInit } from '../slices/tasks';
 import Navbar from '../components/Navbar';
 import AppContent from '../components/AppContent';
 import { useAppDispatch } from '../store';
@@ -22,6 +23,7 @@ function App() {
       try {
         unwrapResult(await dispatch(ethInit()));
         unwrapResult(await dispatch(goalsInit()));
+        unwrapResult(await dispatch(tasksInit()));
         setIsLoading(false);
       } catch (e) {
         console.error('Failed to init!');

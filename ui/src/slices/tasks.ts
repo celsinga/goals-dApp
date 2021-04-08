@@ -3,28 +3,34 @@ import * as taskService from '../services/tasks';
 import { TaskWithId, Task } from '../services/tasks';
 
 interface TasksState {
-  active: TaskWithId[]
+  goalTasks: { [goalId: number]: TaskWithId[] }
 }
 
 const initialState: TasksState = {
-  active: []
+  goalTasks: {}
 };
 
 export const init = createAsyncThunk('tasks/init', async () => {
-  return await taskService.init();
+  await taskService.init();
 });
 
-export const listActive = createAsyncThunk('tasks/listActive', async () => {
-  return await taskService.listActive();
+export const listActive = createAsyncThunk('tasks/listActive', async (goalId: number) => {
+  const tasks = await taskService.listActive(goalId);
+  return { goalId, tasks };
 });
 
-export const create = createAsyncThunk('tasks/create', async (task: Task) => {
-  return await taskService.create(task);
+export const create = createAsyncThunk('tasks/create',
+  async ({ goalId, description }: { goalId: number, description: string }) => {
+
+  const task = await taskService.create(goalId, description);
+  return { goalId, task };
 });
 
-export const complete = createAsyncThunk('tasks/complete', async (taskId: TaskWithId) => {
-  await taskService.complete(taskId);
-  return taskId;
+export const updateDone = createAsyncThunk('tasks/updateDone',
+  async ({ goalId, taskId, done }: { goalId: number, taskId: number, done: boolean }) => {
+
+  await taskService.updateDone(goalId, taskId, done);
+  return { goalId, taskId, done };
 });
 
 const tasksSlice = createSlice({
@@ -32,21 +38,25 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(init.fulfilled, (state, action) => {
-      state.active = action.payload;
-    });
     builder.addCase(listActive.fulfilled, (state, action) => {
-      state.active = action.payload;
+      state.goalTasks[action.payload.goalId] = action.payload.tasks;
     });
     builder.addCase(create.fulfilled, (state, action) => {
-      state.active.unshift(action.payload);
+      if (!state.goalTasks[action.payload.goalId]) {
+        state.goalTasks[action.payload.goalId] = [];
+      }
+      state.goalTasks[action.payload.goalId].unshift(action.payload.task);
     });
-    // builder.addCase(complete.fulfilled, (state, action) => {
-    //   state.active.splice(state.active.findIndex((v) => v.id === action.payload), 1);
-    // });
+    builder.addCase(updateDone.fulfilled, (state, action) => {
+      const task = state.goalTasks[action.payload.goalId].find((v) => v.id === action.payload.taskId);
+      if (!task) return;
+      task.task.done = action.payload.done;
+    });
   }
 });
 
-export const activeTasksSelector = (state: { tasks: TasksState }) => state.tasks.active;
+export const activeTasksSelector = (state: { tasks: TasksState }, goalId: number) => {
+  return state.tasks.goalTasks[goalId]
+}
 
 export default tasksSlice.reducer;
