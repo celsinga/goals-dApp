@@ -11,6 +11,7 @@ import pluralize from 'pluralize';
 import IconButton from '@material-ui/core/IconButton';
 import DoneOutlineOutlinedIcon from '@material-ui/icons/DoneOutlineOutlined';
 import { complete } from '../../slices/goals';
+import AddTask from '../AddTask/index';
 
 export default function Goal() {
   const dispatch = useAppDispatch();
@@ -61,6 +62,8 @@ export default function Goal() {
           </div>
 
         </div>
+
+        <AddTask />
             
       </Paper>
     </div>
