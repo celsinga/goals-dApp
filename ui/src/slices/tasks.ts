@@ -45,17 +45,20 @@ const tasksSlice = createSlice({
       if (!state.goalTasks[action.payload.goalId]) {
         state.goalTasks[action.payload.goalId] = [];
       }
-      state.goalTasks[action.payload.goalId].unshift(action.payload.task);
+      state.goalTasks[action.payload.goalId].push(action.payload.task);
     });
     builder.addCase(updateDone.fulfilled, (state, action) => {
-      const task = state.goalTasks[action.payload.goalId].find((v) => v.id === action.payload.taskId);
-      if (!task) return;
-      task.task.done = action.payload.done;
+      const tasks = state.goalTasks[action.payload.goalId];
+      const taskIndex = tasks.findIndex((v) => v.id === action.payload.taskId);
+      if (!tasks[taskIndex]) return;
+      const updatedTask = JSON.parse(JSON.stringify(tasks[taskIndex]));
+      updatedTask.task.done = action.payload.done;
+      tasks[taskIndex] = updatedTask;
     });
   }
 });
 
-export const activeTasksSelector = (state: { tasks: TasksState }, goalId: number) => {
+export const tasksSelector = (goalId: number) => (state: { tasks: TasksState }) => {
   return state.tasks.goalTasks[goalId]
 }
 

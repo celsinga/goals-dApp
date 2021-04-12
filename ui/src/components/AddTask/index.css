@@ -1,6 +1,5 @@
 
 .addCtr {
-  padding: 16px;
   margin-top: 16px;
 }
 
@@ -8,8 +7,5 @@
   margin-top: 8px;
   display: flex;
   align-items: center;
-}
-
-.grow {
-  flex-grow: 1;
+  justify-content: flex-end;
 }

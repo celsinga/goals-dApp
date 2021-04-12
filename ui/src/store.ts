@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import ethReducer from './slices/eth';
 import goalsReducer from './slices/goals';
+import tasksReducer from './slices/tasks';
 
 const store = configureStore({
   reducer: {
     eth: ethReducer,
-    goals: goalsReducer
+    goals: goalsReducer,
+    tasks: tasksReducer
   }
 });
 

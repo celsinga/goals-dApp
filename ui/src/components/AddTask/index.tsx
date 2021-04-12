@@ -1,25 +1,16 @@
 import { useState } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { create } from '../../slices/tasks';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import styles from './index.css';
 import { useAppDispatch } from '../../store';
 
-export default function AddTask() {
+export default function AddTask({ goalId }: { goalId: number }) {
   const dispatch = useAppDispatch();
-
-  const defaultDeadlineDate = new Date();
-  defaultDeadlineDate.setHours(0,0,0,0);
-  defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
-  defaultDeadlineDate.setMinutes(defaultDeadlineDate.getMinutes() - 
-                                 defaultDeadlineDate.getTimezoneOffset());
-  let defaultDeadline = defaultDeadlineDate.toISOString();
 
   const [isCreating, setIsCreating] = useState(false);
   const [createDescription, setCreateDescription] = useState('');
-  const [deadline, setDeadline] = useState(defaultDeadline.substring(0, defaultDeadline.length - 8));
 
   async function handleCreateSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -28,7 +19,7 @@ export default function AddTask() {
       setIsCreating(false);
       unwrapResult(await dispatch(create({
         description: createDescription,
-        deadline: Math.round(new Date(deadline).getTime() / 1000)
+        goalId
       })));
     } catch (e) {
       console.error(e);
@@ -39,7 +30,7 @@ export default function AddTask() {
   }
 
   return (
-    <Paper className={styles.addCtr}>
+    <div className={styles.addCtr}>
       <form onSubmit={handleCreateSubmit} className={styles.addForm}>
         <TextField
           type="text"
@@ -50,29 +41,19 @@ export default function AddTask() {
           value={createDescription}
         />
         <div className={styles.secondRow}>
-          <TextField
-            type="date"
-            value={deadline}
-            onChange={(ev) => setDeadline(ev.target.value)}
-            label="Deadline"
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-          <div className={styles.grow}></div>
           <div>
             <Button
               type="submit"
               color='primary'
               variant='contained'
               value={isCreating ? 'Creating...' : 'Create'}
-              disabled={isCreating || !createDescription || !new Date(deadline).getTime()}
+              disabled={isCreating || !createDescription}
             >
               Add Task
             </Button>
           </div>
         </div>
       </form>
-    </Paper>
+    </div>
   );
 }

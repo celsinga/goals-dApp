@@ -11,7 +11,8 @@ import pluralize from 'pluralize';
 import IconButton from '@material-ui/core/IconButton';
 import DoneOutlineOutlinedIcon from '@material-ui/icons/DoneOutlineOutlined';
 import { complete } from '../../slices/goals';
-import AddTask from '../AddTask/index';
+import AddTask from '../AddTask';
+import TaskList from '../TaskList';
 
 export default function Goal() {
   const dispatch = useAppDispatch();
@@ -44,15 +45,14 @@ export default function Goal() {
             </Typography>
 
             {currentDate.getMonth() === new Date(goal.goal.deadline * 1000).getMonth() ? (
-            <Typography style={{color: '#eb4034'}}>
+              <Typography style={{ color: '#eb4034', fontSize: '0.92em' }}>
                 {(new Date(goal.goal.deadline * 1000).getDate()) - (currentDate.getDate())} days remaining
-            </Typography>
-              ) : (
-            <Typography style={{color: '#eb4034'}}>
+              </Typography>
+            ) : (
+              <Typography style={{color: '#eb4034'}}>
                 {monthsRemaining} {pluralize('month', monthsRemaining)} remaining
-            </Typography>
-              ) 
-            }
+              </Typography>
+            )}
           </div>
 
           <div>
@@ -63,7 +63,8 @@ export default function Goal() {
 
         </div>
 
-        <AddTask />
+        <TaskList goalId={goal.id} />
+        <AddTask goalId={goal.id} />
             
       </Paper>
     </div>
