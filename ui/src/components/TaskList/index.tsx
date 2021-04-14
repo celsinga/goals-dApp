@@ -7,6 +7,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TaskWithId } from '../../services/tasks';
 import { listActive, updateDone, tasksSelector } from '../../slices/tasks';
+import CancelIcon from '@material-ui/icons/Cancel';
+import IconButton from '@material-ui/core/IconButton';
 
 export default function TaskList({ goalId }: { goalId: number }) {
   const tasks: TaskWithId[] = useSelector(tasksSelector(goalId));
@@ -32,7 +34,7 @@ export default function TaskList({ goalId }: { goalId: number }) {
       </Typography>
       {!!tasks && tasks.map((v) => (
         <div key={v.id}>
-          <FormControlLabel
+          <div style={{display: 'flex', justifyContent: 'space-between'}}><FormControlLabel
             label={v.task.description}
             control={
               <Checkbox
@@ -42,6 +44,10 @@ export default function TaskList({ goalId }: { goalId: number }) {
               />
             }
           />
+          <IconButton>
+            <CancelIcon />
+          </IconButton>
+          </div>
         </div>
       ))}
     </div>

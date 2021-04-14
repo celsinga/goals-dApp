@@ -14,6 +14,7 @@ import { complete } from '../../slices/goals';
 import AddTask from '../AddTask';
 import TaskList from '../TaskList';
 
+
 export default function Goal() {
   const dispatch = useAppDispatch();
   const activeGoals = useSelector(activeGoalsSelector);
@@ -40,9 +41,13 @@ export default function Goal() {
             <Typography className={styles.goalId} color='textSecondary'>
               {`Goal #${goal.id}`}
             </Typography>
-            <Typography>
-              {goal.goal.description}
-            </Typography>
+            <div contentEditable="true"
+              suppressContentEditableWarning
+              >
+              <Typography>
+                {goal.goal.description}
+              </Typography>
+            </div>
 
             {currentDate.getMonth() === new Date(goal.goal.deadline * 1000).getMonth() ? (
               <Typography style={{ color: '#eb4034', fontSize: '0.92em' }}>
