@@ -33,6 +33,11 @@ export const updateDone = createAsyncThunk('tasks/updateDone',
   return { goalId, taskId, done };
 });
 
+export const remove = createAsyncThunk('tasks/remove', async (taskId: number) => {
+  await taskService.deleteTask(taskId);
+  return taskId;
+})
+
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,

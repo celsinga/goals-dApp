@@ -7,12 +7,18 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TaskWithId } from '../../services/tasks';
 import { listActive, updateDone, tasksSelector } from '../../slices/tasks';
+import { useHistory } from 'react-router-dom';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
+import { remove } from '../../slices/tasks';
+import { useParams } from 'react-router-dom';
 
 export default function TaskList({ goalId }: { goalId: number }) {
   const tasks: TaskWithId[] = useSelector(tasksSelector(goalId));
   const dispatch = useAppDispatch();
+  const history = useHistory();
+  // const { id } = useParams<{ id: string }>();
+  // const task = tasks.find((v) => v.id === parseInt(id));
 
   useEffect(() => {
     dispatch(listActive(goalId));
@@ -26,6 +32,11 @@ export default function TaskList({ goalId }: { goalId: number }) {
     }));
     dispatch(listActive(goalId));
   }
+
+  // async function handleRemoveTaskClick() {
+  //   await dispatch(remove(task!.id));
+  //   history.push('/')
+  // }
 
   return (
     <div className={styles.root}>

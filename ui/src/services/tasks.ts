@@ -18,6 +18,10 @@ export async function init(): Promise<void> {
   contract = ethService.loadContract('TasksHeavy');
 }
 
+export async function deleteTask(taskId: number): Promise<void> {
+  await contract.methods.deleteTask(taskId).send();
+}
+
 export async function listActive(goalId: number): Promise<TaskWithId[]> {
   const activeTasks = await contract.methods.listActive(goalId).call();
   return activeTasks.map((v: any) => {

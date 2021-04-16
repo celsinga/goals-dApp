@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +12,7 @@ import DoneOutlineOutlinedIcon from '@material-ui/icons/DoneOutlineOutlined';
 import { complete } from '../../slices/goals';
 import AddTask from '../AddTask';
 import TaskList from '../TaskList';
+import EditIcon from '@material-ui/icons/Edit';
 
 
 export default function Goal() {
@@ -49,15 +49,18 @@ export default function Goal() {
               </Typography>
             </div>
 
-            {currentDate.getMonth() === new Date(goal.goal.deadline * 1000).getMonth() ? (
-              <Typography style={{ color: '#eb4034', fontSize: '0.92em' }}>
-                {(new Date(goal.goal.deadline * 1000).getDate()) - (currentDate.getDate())} days remaining
-              </Typography>
-            ) : (
-              <Typography style={{color: '#eb4034'}}>
-                {monthsRemaining} {pluralize('month', monthsRemaining)} remaining
-              </Typography>
-            )}
+            <div style={{display: 'flex'}}>
+              {currentDate.getMonth() === new Date(goal.goal.deadline * 1000).getMonth() ? (
+                <Typography style={{ color: '#eb4034', fontSize: '1em' }}>
+                  {(new Date(goal.goal.deadline * 1000).getDate()) - (currentDate.getDate())} days remaining
+                </Typography>
+              ) : (
+                <Typography style={{color: '#eb4034'}}>
+                  {monthsRemaining} {pluralize('month', monthsRemaining)} remaining
+                </Typography>
+              )}
+              <EditIcon style={{color: '#eb4034', fontSize: '1.2em', marginLeft: '7px'}} />
+            </div>
           </div>
 
           <div>
