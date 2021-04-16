@@ -33,9 +33,10 @@ export const updateDone = createAsyncThunk('tasks/updateDone',
   return { goalId, taskId, done };
 });
 
-export const remove = createAsyncThunk('tasks/remove', async (taskId: number) => {
-  await taskService.deleteTask(taskId);
-  return taskId;
+export const remove = createAsyncThunk('tasks/remove',
+  async ({ goalId, taskId }: { goalId: number, taskId: number }) => {
+  await taskService.deleteTask(goalId, taskId);
+  return { goalId, taskId };
 })
 
 const tasksSlice = createSlice({
@@ -56,9 +57,15 @@ const tasksSlice = createSlice({
       const tasks = state.goalTasks[action.payload.goalId];
       const taskIndex = tasks.findIndex((v) => v.id === action.payload.taskId);
       if (!tasks[taskIndex]) return;
-      const updatedTask = JSON.parse(JSON.stringify(tasks[taskIndex]));
+      const updatedTask = Object.assign({}, tasks[taskIndex]);
+      updatedTask.task = Object.assign({}, tasks[taskIndex].task);
       updatedTask.task.done = action.payload.done;
       tasks[taskIndex] = updatedTask;
+    });
+    builder.addCase(remove.fulfilled, (state, action) => {
+      const tasks = state.goalTasks[action.payload.goalId];
+      const taskIndex = tasks.findIndex((v) => v.id === action.payload.taskId);
+      tasks.splice(taskIndex, 1);
     });
   }
 });

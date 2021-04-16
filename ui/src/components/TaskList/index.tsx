@@ -6,19 +6,16 @@ import { useAppDispatch } from '../../store';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TaskWithId } from '../../services/tasks';
-import { listActive, updateDone, tasksSelector } from '../../slices/tasks';
+import { listActive, updateDone, remove, tasksSelector } from '../../slices/tasks';
 import { useHistory } from 'react-router-dom';
-import CancelIcon from '@material-ui/icons/Cancel';
+import ClearIcon from '@material-ui/icons/Clear';
 import IconButton from '@material-ui/core/IconButton';
-import { remove } from '../../slices/tasks';
 import { useParams } from 'react-router-dom';
 
 export default function TaskList({ goalId }: { goalId: number }) {
   const tasks: TaskWithId[] = useSelector(tasksSelector(goalId));
   const dispatch = useAppDispatch();
   const history = useHistory();
-  // const { id } = useParams<{ id: string }>();
-  // const task = tasks.find((v) => v.id === parseInt(id));
 
   useEffect(() => {
     dispatch(listActive(goalId));
@@ -30,13 +27,11 @@ export default function TaskList({ goalId }: { goalId: number }) {
       taskId,
       done: ev.target.checked
     }));
-    dispatch(listActive(goalId));
   }
 
-  // async function handleRemoveTaskClick() {
-  //   await dispatch(remove(task!.id));
-  //   history.push('/')
-  // }
+  async function handleRemoveTaskClick(taskId: number) {
+    await dispatch(remove({ goalId, taskId }));
+  }
 
   return (
     <div className={styles.root}>
@@ -45,19 +40,20 @@ export default function TaskList({ goalId }: { goalId: number }) {
       </Typography>
       {!!tasks && tasks.map((v) => (
         <div key={v.id}>
-          <div style={{display: 'flex', justifyContent: 'space-between'}}><FormControlLabel
-            label={v.task.description}
-            control={
-              <Checkbox
-                checked={v.task.done}
-                onChange={(ev) => handleCheckChange(ev, v.id)}
-                name={`done_${v.id}`}
-              />
-            }
-          />
-          <IconButton>
-            <CancelIcon />
-          </IconButton>
+          <div style={{display: 'flex', justifyContent: 'space-between' }}>
+            <FormControlLabel
+              label={v.task.description}
+              control={
+                <Checkbox
+                  checked={v.task.done}
+                  onChange={(ev) => handleCheckChange(ev, v.id)}
+                  name={`done_${v.id}`}
+                />
+              }
+            />
+            <IconButton onClick={() => handleRemoveTaskClick(v.id)}>
+              <ClearIcon />
+            </IconButton>
           </div>
         </div>
       ))}
