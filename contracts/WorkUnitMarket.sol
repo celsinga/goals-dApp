@@ -15,6 +15,7 @@ contract WorkUnitMarket {
   IERC721 workUnit;
   mapping(uint => Sale) sales;
 
+  event SaleListed(uint indexed tokenId);
   event SaleStarted(uint indexed tokenId, Sale sale);
   event SaleCancelled(uint indexed tokenId);
   event SaleCompleted(uint indexed tokenId);
@@ -29,6 +30,8 @@ contract WorkUnitMarket {
     workUnit.transferFrom(msg.sender, address(this), tokenId);
 
     sales[tokenId].seller = msg.sender;
+
+    emit SaleListed(tokenId);
   }
 
   function startSale(uint tokenId, uint value, address tokenContract) public {
@@ -36,6 +39,8 @@ contract WorkUnitMarket {
 
     Sale storage sale = sales[tokenId];
 
+    require(sale.seller != address(0), "Token not listed");
+    require(sale.seller != msg.sender, "You're the seller, you can't be the buyer");
     require(sale.value == 0, "Sale escrow already exists");
 
     sale.buyingToken = IERC20(tokenContract);
@@ -68,7 +73,7 @@ contract WorkUnitMarket {
     Sale storage sale = sales[tokenId];
     require(sale.buyer == msg.sender, "No order exists for buyer");
 
-    require(sale.buyingToken.transfer(msg.sender, sale.value),
+    require(sale.buyingToken.transfer(sale.seller, sale.value),
             "Failed to transfer funds from escrow. Shit!");
     workUnit.transferFrom(address(this), sale.buyer, tokenId);
 
