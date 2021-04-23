@@ -35,6 +35,15 @@ contract GoalsHeavy {
     emit Created(goalId);
   }
 
+  function updateInfo(uint goalId, uint deadline, string calldata description) public {
+    Goal storage goal = activeGoals[msg.sender][goalId];
+
+    require(goal.deadline > 0, "Goal must exist and be active");
+    
+    goal.description = description;
+    goal.deadline = deadline;
+  }
+
   function complete(uint goalId) public {
     Goal storage goal = activeGoals[msg.sender][goalId];
 
