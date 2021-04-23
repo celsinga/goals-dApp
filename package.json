@@ -1,0 +1,25 @@
+{
+  "name": "goals-dapp",
+  "version": "1.0.0",
+  "description": "## Dev quickstart",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/celsinga/goals-dApp.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/celsinga/goals-dApp/issues"
+  },
+  "homepage": "https://github.com/celsinga/goals-dApp#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.0.0"
+  }
+}

@@ -6,6 +6,7 @@ contract TasksHeavy {
     string description;
     bool done;
     bool active;
+    uint workUnitId;
   }
 
   struct TaskWithId {
@@ -42,6 +43,11 @@ contract TasksHeavy {
   function updateDone(uint goalId, uint taskId, bool done) public {
     Task storage task = get(goalId, taskId);
     task.done = done;
+  }
+
+  function assignWorkUnit(uint goalId, uint taskId, uint workUnitId) public {
+    Task storage task = get(goalId, taskId);
+    task.workUnitId = workUnitId;
   }
 
   function deleteTask(uint goalId, uint taskId) public {
