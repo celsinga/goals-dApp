@@ -45,3 +45,7 @@ export async function create(goalId: number, description: string): Promise<TaskW
 export async function updateDone(goalId: number, taskId: number, done: boolean): Promise<void> {
   await contract.methods.updateDone(goalId, taskId, done).send();
 }
+
+export async function updateDesc(goalId: number, taskId: number, desc: string): Promise<void> {
+  await contract.methods.updateDesc(goalId, taskId, desc).send();
+}

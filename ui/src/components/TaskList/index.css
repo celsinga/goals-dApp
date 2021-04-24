@@ -2,3 +2,9 @@
   margin-top: 24px;
   min-height: 2vh;
 }
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
