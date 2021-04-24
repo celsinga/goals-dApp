@@ -21,12 +21,13 @@ contract('WorkUnitMarket', (accounts) => {
 
     await workUnit.approve(workUnitMarket.address, 1);
 
-    const receipt = await workUnitMarket.listSale(1);
+    const receipt = await workUnitMarket.listSale(1, accounts[1]);
     reportGas('List', receipt);
 
     assert.equal(receipt.logs.length, 1, 'One log should be emitted');
     assert.equal(receipt.logs[0].event, 'SaleListed', 'Log should be SaleListed event');
     assert.equal(receipt.logs[0].args.tokenId, 1, 'Token ID should be 1');
+    assert.equal(receipt.logs[0].args.buyer, accounts[1], 'Buyer should be second account');
     assert.equal(await workUnit.ownerOf(1), workUnitMarket.address, 'Contract should own work unit now');
   });
 
@@ -34,9 +35,22 @@ contract('WorkUnitMarket', (accounts) => {
     const workUnitMarket = await WorkUnitMarket.deployed();
 
     try {
-      await workUnitMarket.listSale(1);
+      await workUnitMarket.listSale(1, accounts[1]);
     } catch (e) {
       assert.equal(e.reason, 'Sale exists for token', 'Error must be of correct type');
+      return;
+    }
+
+    assert.fail('Operation completed');
+  });
+
+  it('should not list token with self as buyer', async () => {
+    const workUnitMarket = await WorkUnitMarket.deployed();
+
+    try {
+      await workUnitMarket.listSale(2, accounts[0]);
+    } catch (e) {
+      assert.equal(e.reason, 'You\'re the seller, you can\'t be the buyer', 'Error must be of correct type');
       return;
     }
 
@@ -59,10 +73,8 @@ contract('WorkUnitMarket', (accounts) => {
     assert.equal(receipt.logs.length, 1, 'One log should be emitted');
     assert.equal(receipt.logs[0].event, 'SaleStarted', 'Log should be SaleStarted event');
     assert.equal(receipt.logs[0].args.tokenId, 1, 'Token ID should be 1');
-    assert.equal(receipt.logs[0].args.sale.buyingToken, cadCoin.address, 'Buying token address should be correct');
-    assert.equal(receipt.logs[0].args.sale.value, 2500, 'Value should be correct');
-    assert.equal(receipt.logs[0].args.sale.buyer, accounts[1], 'Buying account should be correct');
-    assert.equal(receipt.logs[0].args.sale.seller, accounts[0], 'Seller account should be correct');
+    assert.equal(receipt.logs[0].args.buyingToken, cadCoin.address, 'Buying token address should be correct');
+    assert.equal(receipt.logs[0].args.value, 2500, 'Value should be correct');
 
     assert.equal(await cadCoin.balanceOf(accounts[1]), 7500, 'Balance should not be 7500');
   });
@@ -93,24 +105,7 @@ contract('WorkUnitMarket', (accounts) => {
         from: accounts[1]
       });
     } catch (e) {
-      assert.equal(e.reason, 'Token not listed', 'Error must be of correct type');
-      return;
-    }
-
-    assert.fail('Operation completed');
-  });
-
-  it('should not start sale if already selling', async () => {
-    const cadCoin = await CADCoin.deployed();
-    const workUnit = await WorkUnit.deployed();
-    const workUnitMarket = await WorkUnitMarket.deployed();
-
-    await workUnit.approve(workUnitMarket.address, 2);
-    await workUnitMarket.listSale(2);
-    try {
-      await workUnitMarket.startSale(2, 2500, cadCoin.address);
-    } catch (e) {
-      assert.equal(e.reason, 'You\'re the seller, you can\'t be the buyer', 'Error must be of correct type');
+      assert.equal(e.reason, 'No sale exists for buyer', 'Error must be of correct type');
       return;
     }
 
@@ -121,6 +116,9 @@ contract('WorkUnitMarket', (accounts) => {
     const cadCoin = await CADCoin.deployed();
     const workUnit = await WorkUnit.deployed();
     const workUnitMarket = await WorkUnitMarket.deployed();
+
+    await workUnit.approve(workUnitMarket.address, 2);
+    await workUnitMarket.listSale(2, accounts[1]);
 
     await cadCoin.approve.sendTransaction(workUnitMarket.address, 2500, {
       from: accounts[1]
@@ -171,7 +169,7 @@ contract('WorkUnitMarket', (accounts) => {
     const workUnitMarket = await WorkUnitMarket.deployed();
 
     await workUnit.approve(workUnitMarket.address, 3);
-    await workUnitMarket.listSale(3);
+    await workUnitMarket.listSale(3, accounts[1]);
     await cadCoin.approve.sendTransaction(workUnitMarket.address, 2500, {
       from: accounts[1]
     });
@@ -210,7 +208,7 @@ contract('WorkUnitMarket', (accounts) => {
     const workUnitMarket = await WorkUnitMarket.deployed();
 
     await workUnit.approve(workUnitMarket.address, 4);
-    await workUnitMarket.listSale(4);
+    await workUnitMarket.listSale(4, accounts[1]);
     await cadCoin.approve.sendTransaction(workUnitMarket.address, 2500, {
       from: accounts[1]
     });
