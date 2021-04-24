@@ -35,7 +35,7 @@ export default function AppContent() {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="homepage">
         <CssBaseline />
         <Container className={styles.goalsMain} maxWidth="lg">
@@ -49,19 +49,17 @@ export default function AppContent() {
             </div>
           </Card>
           <div className={styles.goalsParent}>
-            <Router>
-              <Switch>
-                <Route exact path="/">
-                  <GoalsList />
-                </Route>
-                <Route path="/goal/:id">
-                  <Goal />
-                </Route>
-              </Switch>
-            </Router>
+            <Switch>
+              <Route exact path="/">
+                <GoalsList />
+              </Route>
+              <Route path="/goal/:id">
+                <Goal />
+              </Route>
+            </Switch>
           </div>
         </Container>
       </div>
-    </React.Fragment>
+    </>
   );
 }

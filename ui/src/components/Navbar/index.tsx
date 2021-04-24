@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,14 +14,14 @@ export default function Navbar() {
       <AppBar position="static">
         <Toolbar className={styles.toolbar}>
           <div>
-            <a href="http://localhost:3000" style={{textDecoration: 'none', color: 'white'}}>
+            <Link to="/" className={styles.rootLink}>
               <IconButton edge="start" className="logo" color="inherit" aria-label="menu">
                 <img src={guava} alt="app-logo" />
                 <Typography variant="h6" className={styles.appName}>
                 GoalSlicer™
                 </Typography>
               </IconButton>
-            </a>
+            </Link>
           </div>
           <div>
             <Button className={styles.login} color="inherit">Pages</Button>

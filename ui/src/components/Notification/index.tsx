@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Alert from '@material-ui/lab/Alert';
 import { notifySelector } from '../../slices/notification';
 import { useAppDispatch } from '../../store';
 import { clear } from '../../slices/notification';
@@ -30,14 +30,14 @@ export default function Notification() {
       onClose={handleClose}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
     >
-      <MuiAlert
+      <Alert
         onClose={handleClose}
         severity={notifyInfo.severity}
         elevation={6}
         variant='filled'
       >
         {notifyInfo.msg}
-      </MuiAlert>
+      </Alert>
     </Snackbar>
   );
 }

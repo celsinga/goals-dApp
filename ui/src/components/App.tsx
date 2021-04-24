@@ -12,6 +12,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue'; 
 import purple from '@material-ui/core/colors/purple'; 
+import { BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -46,9 +47,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <Navbar />
-        <AppContent />
-        <Notification />
+        <Router>
+          <Navbar />
+          <AppContent />
+          <Notification />
+        </Router>
       </div>
     </ThemeProvider>
   );

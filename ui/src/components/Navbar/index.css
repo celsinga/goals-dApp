@@ -18,3 +18,8 @@
   flex-grow: 1;
   padding-left: 1em;
 }
+
+.rootLink {
+  text-decoration: none;
+  color: white;
+}
