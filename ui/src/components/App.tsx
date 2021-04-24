@@ -9,13 +9,19 @@ import AppContent from '../components/AppContent';
 import { useAppDispatch } from '../store';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import { ThemeProvider } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue'; 
+import purple from '@material-ui/core/colors/purple'; 
 
 function App() {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
   const theme = createMuiTheme({
-    palette: { type: 'dark' }
+    palette: {
+      primary: blue,
+      secondary: purple,
+      type: 'dark'
+    }
   });
 
   useEffect(() => {

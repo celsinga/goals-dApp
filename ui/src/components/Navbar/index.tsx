@@ -10,16 +10,16 @@ export default function Navbar() {
 
   return (
     <div className={styles.navbar}>
-      <AppBar position="static" style={{backgroundColor: '#7542f5'}}>
+      <AppBar position="static">
         <Toolbar className={styles.toolbar}>
           <div>
             <a href="http://localhost:3000" style={{textDecoration: 'none', color: 'white'}}>
-            <IconButton edge="start" className="logo" color="inherit" aria-label="menu">
-              <img src={guava} alt="app-logo" />
-              <Typography variant="h6" className={styles.appName}>
-              GoalSlicer™
-              </Typography>
-            </IconButton>
+              <IconButton edge="start" className="logo" color="inherit" aria-label="menu">
+                <img src={guava} alt="app-logo" />
+                <Typography variant="h6" className={styles.appName}>
+                GoalSlicer™
+                </Typography>
+              </IconButton>
             </a>
           </div>
           <div>

@@ -9,6 +9,7 @@
 .toolbar {
   display: flex;
   justify-content: space-between;
+  background-color: #3f51b5;
 }
 .logo {
   margin-right: spacing(2);
