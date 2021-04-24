@@ -1,45 +1,47 @@
 import { createSlice, AsyncThunk } from '@reduxjs/toolkit';
-import { notificationInfo as tasksNotificationInfo } from '../slices/tasks';
-import { notificationInfo as goalsNotificationInfo } from '../slices/goals';
-
-export interface NotificationAction {
-  action: AsyncThunk<any, any, {}>,
-  desc: string
-}
+import * as tasksSlice from '../slices/tasks';
+import * as goalsSlice from '../slices/goals';
 
 interface NotifyState {
   msg: string | null;
   severity: 'success' | 'error' | 'info';
+  inProgress: boolean;
 }
 
 const initialState: NotifyState = {
   msg: null,
-  severity: 'info'
+  severity: 'info',
+  inProgress: false
 };
 
-let allNotificationInfo: NotificationAction[] = [];
-allNotificationInfo = allNotificationInfo.concat(tasksNotificationInfo, goalsNotificationInfo);
+const notificationInfo = [
+  { action: goalsSlice.create, desc: 'Goal creation' },
+  { action: goalsSlice.complete, desc: 'Goal completion' },
+  { action: tasksSlice.create, desc: 'Task creation' },
+  { action: tasksSlice.updateDone, desc: 'Task update' },
+  { action: tasksSlice.updateDesc, desc: 'Task update' },
+  { action: tasksSlice.remove, desc: 'Task removal' }
+];
 
 const notifySlice = createSlice({
   name: 'notification',
   initialState,
-  reducers: {
-    clear(state) {
-      state.msg = null;
-    }
-  },
+  reducers: {},
   extraReducers: builder => {
-    for (const notifyInfo of allNotificationInfo) {
+    for (const notifyInfo of notificationInfo) {
       builder.addCase(notifyInfo.action.pending, (state, action) => {
         state.msg = `${notifyInfo.desc} in progress...`;
+        state.inProgress = true;
         state.severity = 'info';
       });
       builder.addCase(notifyInfo.action.fulfilled, (state, action) => {
         state.msg = `${notifyInfo.desc} complete!`;
+        state.inProgress = false;
         state.severity = 'success';
       });
       builder.addCase(notifyInfo.action.rejected, (state, action) => {
         state.msg = `${notifyInfo.desc} failed! Error: ${action.error.message}`;
+        state.inProgress = false;
         state.severity = 'error';
       });
     }
@@ -47,7 +49,5 @@ const notifySlice = createSlice({
 });
 
 export const notifySelector = (state: { notification: NotifyState }) => state.notification;
-
-export const { clear } = notifySlice.actions;
 
 export default notifySlice.reducer;

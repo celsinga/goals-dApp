@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as taskService from '../services/tasks';
 import { TaskWithId, Task } from '../services/tasks';
-import { NotificationAction } from '../slices/notification';
 
 interface TasksState {
   goalTasks: { [goalId: number]: TaskWithId[] }
@@ -94,12 +93,5 @@ const tasksSlice = createSlice({
 export const tasksSelector = (goalId: number) => (state: { tasks: TasksState }) => {
   return state.tasks.goalTasks[goalId]
 }
-
-export const notificationInfo: NotificationAction[] = [
-  { action: create, desc: 'Task creation' },
-  { action: updateDone, desc: 'Task update' },
-  { action: updateDesc, desc: 'Task update' },
-  { action: remove, desc: 'Task removal' },
-];
 
 export default tasksSlice.reducer;

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { create } from '../../slices/goals';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -10,31 +9,25 @@ import { useAppDispatch } from '../../store';
 export default function AddGoal() {
   const dispatch = useAppDispatch();
 
-  const defaultDeadlineDate = new Date();
-  defaultDeadlineDate.setHours(0,0,0,0);
-  defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
-  defaultDeadlineDate.setMinutes(defaultDeadlineDate.getMinutes() - 
-                                 defaultDeadlineDate.getTimezoneOffset());
-  let defaultDeadline = defaultDeadlineDate.toISOString();
+  const defaultDeadline = new Date();
+  defaultDeadline.setDate(defaultDeadline.getDate() + 7);
+  defaultDeadline.setMinutes(defaultDeadline.getMinutes() -
+                             defaultDeadline.getTimezoneOffset());
 
-  const [isCreating, setIsCreating] = useState(false);
   const [createDescription, setCreateDescription] = useState('');
-  const [deadline, setDeadline] = useState(defaultDeadline.substring(0, defaultDeadline.length - 8));
+  const [deadline, setDeadline] = useState(defaultDeadline.toISOString().split('T')[0]);
 
   async function handleCreateSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
 
-    try {
-      setIsCreating(false);
-      unwrapResult(await dispatch(create({
-        description: createDescription,
-        deadline: Math.round(new Date(deadline).getTime() / 1000)
-      })));
-    } catch (e) {
-      console.error(e);
-      // TODO: Handle this error
-    }
-    setIsCreating(false);
+    const deadlineDate = new Date(deadline);
+    deadlineDate.setMinutes(deadlineDate.getMinutes() +
+                            deadlineDate.getTimezoneOffset());
+    dispatch(create({
+      description: createDescription,
+      deadline: Math.round(deadlineDate.getTime() / 1000)
+    }));
+
     setCreateDescription('');
   }
 
@@ -65,8 +58,7 @@ export default function AddGoal() {
               type="submit"
               color='primary'
               variant='contained'
-              value={isCreating ? 'Creating...' : 'Create'}
-              disabled={isCreating || !createDescription || !new Date(deadline).getTime()}
+              disabled={!createDescription || !new Date(deadline).getTime()}
             >
               Add Goal
             </Button>

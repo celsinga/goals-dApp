@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { create } from '../../slices/tasks';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -9,23 +8,15 @@ import { useAppDispatch } from '../../store';
 export default function AddTask({ goalId }: { goalId: number }) {
   const dispatch = useAppDispatch();
 
-  const [isCreating, setIsCreating] = useState(false);
   const [createDescription, setCreateDescription] = useState('');
 
   async function handleCreateSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
 
-    try {
-      setIsCreating(false);
-      unwrapResult(await dispatch(create({
-        description: createDescription,
-        goalId
-      })));
-    } catch (e) {
-      console.error(e);
-      // TODO: Handle this error
-    }
-    setIsCreating(false);
+    dispatch(create({
+      description: createDescription,
+      goalId
+    }));
     setCreateDescription('');
   }
 
@@ -46,8 +37,7 @@ export default function AddTask({ goalId }: { goalId: number }) {
               type="submit"
               color='primary'
               variant='contained'
-              value={isCreating ? 'Creating...' : 'Create'}
-              disabled={isCreating || !createDescription}
+              disabled={!createDescription}
             >
               Add Task
             </Button>

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as goalService from '../services/goals';
 import { GoalWithId, Goal } from '../services/goals';
-import { NotificationAction } from './notification';
 
 interface GoalsState {
   active: GoalWithId[]
@@ -49,10 +48,5 @@ const goalsSlice = createSlice({
 });
 
 export const activeGoalsSelector = (state: { goals: GoalsState }) => state.goals.active;
-
-export const notificationInfo: NotificationAction[] = [
-  { action: create, desc: 'Goal creation' },
-  { action: complete, desc: 'Goal completion' }
-];
 
 export default goalsSlice.reducer;
