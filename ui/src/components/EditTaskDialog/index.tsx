@@ -6,7 +6,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -25,8 +24,6 @@ export default function EditTaskDialog({ goalId, taskId, initContent, onClose }:
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   const [content, setContent] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   useEffect(() => {
     if (!!initContent) {
@@ -35,24 +32,14 @@ export default function EditTaskDialog({ goalId, taskId, initContent, onClose }:
   }, [goalId, taskId, initContent]);
   
   async function handleSaveClick() {
-    setError('');
-    setIsSaving(true);
-    try {
-      unwrapResult(await dispatch(updateDesc({ goalId, taskId, description: content })));
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      onClose();
-      setContent('');
-    } catch (e) {
-      setError(e.toString());
-    } finally {
-      setIsSaving(false);
-    }
+    dispatch(updateDesc({ goalId, taskId, description: content }));
+    onClose();
+    setContent('');
   }
 
   async function handleCancelClick() {
     onClose();
     setContent('');
-    setError('');   
   }
 
   return (
@@ -73,16 +60,12 @@ export default function EditTaskDialog({ goalId, taskId, initContent, onClose }:
         />
       </DialogContent>
       <DialogActions>
-        <Button color='primary' disabled={isSaving} onClick={handleCancelClick}>
+        <Button color='primary' onClick={handleCancelClick}>
           Cancel
         </Button>
-        {!isSaving ? (
-          <Button color='primary' disabled={!content} onClick={handleSaveClick}>
-            Save
-          </Button>
-        ) : (
-          <CircularProgress size={30} className={styles.progress} />
-        )}
+        <Button color='primary' disabled={!content} onClick={handleSaveClick}>
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );

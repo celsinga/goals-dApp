@@ -3,12 +3,14 @@ import { useDispatch } from 'react-redux';
 import ethReducer from './slices/eth';
 import goalsReducer from './slices/goals';
 import tasksReducer from './slices/tasks';
+import notificationReducer from './slices/notification';
 
 const store = configureStore({
   reducer: {
     eth: ethReducer,
     goals: goalsReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
+    notification: notificationReducer
   }
 });
 
