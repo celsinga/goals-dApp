@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -78,7 +79,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       publicPath: '/'
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   target: 'web',
   devServer: {
@@ -86,11 +88,7 @@ module.exports = {
     port: 3000,
     historyApiFallback: true
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-    }
-  },
+  optimization: {},
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')

@@ -1,5 +1,6 @@
 import * as ethService from './eth';
 import { Contract } from 'web3-eth-contract';
+import contractInfo from '../../../build/contracts/GoalsHeavy.json';
 
 export interface Goal {
   description: string
@@ -14,7 +15,7 @@ export interface GoalWithId {
 let contract: Contract;
 
 export async function init(): Promise<GoalWithId[]> {
-  contract = ethService.loadContract('GoalsHeavy');
+  contract = await ethService.loadContract(contractInfo.abi, contractInfo.networks);
   return await listActive();
 }
 
