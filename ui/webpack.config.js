@@ -80,7 +80,7 @@ module.exports = {
       template: 'public/index.html',
       publicPath: '/'
     }),
-    new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin()
   ],
   target: 'web',
   devServer: {

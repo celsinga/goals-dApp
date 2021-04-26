@@ -3,7 +3,9 @@ import './App.css';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
-import { init as tasksInit } from '../slices/tasks';
+import { init as tasksInit } from '../services/tasks';
+import { init as workUnitsInit } from '../services/workunits';
+import { list as workUnitsList } from '../slices/workunits';
 import Navbar from './Navbar';
 import AppContent from './AppContent';
 import Notification from './Notification';
@@ -31,7 +33,12 @@ function App() {
       try {
         unwrapResult(await dispatch(ethInit()));
         unwrapResult(await dispatch(goalsInit()));
-        unwrapResult(await dispatch(tasksInit()));
+        await tasksInit();
+        await workUnitsInit();
+
+        // TODO: this is temporary, pls remove at some point
+        // unwrapResult(await dispatch(workUnitsList()));
+
         setIsLoading(false);
       } catch (e) {
         console.error('Failed to init!');

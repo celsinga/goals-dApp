@@ -5,11 +5,6 @@ const { reportGas } = require('./util');
 
 contract('WorkUnitMarket', (accounts) => {
   before(async () => {
-    const workUnit = await WorkUnit.deployed();
-    await workUnit.create('A good task to do');
-    await workUnit.create('Another good task to do');
-    await workUnit.create('Yet another good task to do');
-    await workUnit.create('Yet another good task to do, again!');
     const cadCoin = await CADCoin.deployed();
     await cadCoin.addReserveSupply(10000);
     await cadCoin.transfer(accounts[1], 10000);
@@ -19,36 +14,21 @@ contract('WorkUnitMarket', (accounts) => {
     const workUnit = await WorkUnit.deployed();
     const workUnitMarket = await WorkUnitMarket.deployed();
 
-    await workUnit.approve(workUnitMarket.address, 1);
-
-    const receipt = await workUnitMarket.listSale(1, accounts[1]);
+    const receipt = await workUnitMarket.listSale('A cool work unit', accounts[1]);
     reportGas('List', receipt);
 
     assert.equal(receipt.logs.length, 1, 'One log should be emitted');
     assert.equal(receipt.logs[0].event, 'SaleListed', 'Log should be SaleListed event');
     assert.equal(receipt.logs[0].args.tokenId, 1, 'Token ID should be 1');
     assert.equal(receipt.logs[0].args.buyer, accounts[1], 'Buyer should be second account');
-    assert.equal(await workUnit.ownerOf(1), workUnitMarket.address, 'Contract should own work unit now');
-  });
-
-  it('should not list token if sale exists', async () => {
-    const workUnitMarket = await WorkUnitMarket.deployed();
-
-    try {
-      await workUnitMarket.listSale(1, accounts[1]);
-    } catch (e) {
-      assert.equal(e.reason, 'Sale exists for token', 'Error must be of correct type');
-      return;
-    }
-
-    assert.fail('Operation completed');
+    assert.equal(await workUnit.ownerOf(1), workUnitMarket.address, 'Contract should own work unit');
   });
 
   it('should not list token with self as buyer', async () => {
     const workUnitMarket = await WorkUnitMarket.deployed();
 
     try {
-      await workUnitMarket.listSale(2, accounts[0]);
+      await workUnitMarket.listSale("Another task to do", accounts[0]);
     } catch (e) {
       assert.equal(e.reason, 'You\'re the seller, you can\'t be the buyer', 'Error must be of correct type');
       return;
@@ -117,8 +97,7 @@ contract('WorkUnitMarket', (accounts) => {
     const workUnit = await WorkUnit.deployed();
     const workUnitMarket = await WorkUnitMarket.deployed();
 
-    await workUnit.approve(workUnitMarket.address, 2);
-    await workUnitMarket.listSale(2, accounts[1]);
+    await workUnitMarket.listSale("A cool task to do", accounts[1]);
 
     await cadCoin.approve.sendTransaction(workUnitMarket.address, 2500, {
       from: accounts[1]
@@ -134,7 +113,7 @@ contract('WorkUnitMarket', (accounts) => {
     assert.equal(receipt.logs[0].args.tokenId, 2, 'Token ID should be 2');
 
     assert.equal(await cadCoin.balanceOf(accounts[1]), 7500, 'Balance should be 7500 after refund');
-    assert.equal(await workUnit.ownerOf(2), accounts[0], 'Token should be refunded to original owner');
+    assert.equal(await workUnit.exists(2), false, 'Token should be gone');
   });
 
   it('should not cancel sale if not buyer/seller', async () => {
@@ -168,8 +147,7 @@ contract('WorkUnitMarket', (accounts) => {
     const workUnit = await WorkUnit.deployed();
     const workUnitMarket = await WorkUnitMarket.deployed();
 
-    await workUnit.approve(workUnitMarket.address, 3);
-    await workUnitMarket.listSale(3, accounts[1]);
+    await workUnitMarket.listSale('A task', accounts[1]);
     await cadCoin.approve.sendTransaction(workUnitMarket.address, 2500, {
       from: accounts[1]
     });
@@ -207,8 +185,7 @@ contract('WorkUnitMarket', (accounts) => {
     const workUnit = await WorkUnit.deployed();
     const workUnitMarket = await WorkUnitMarket.deployed();
 
-    await workUnit.approve(workUnitMarket.address, 4);
-    await workUnitMarket.listSale(4, accounts[1]);
+    await workUnitMarket.listSale('Another task', accounts[1]);
     await cadCoin.approve.sendTransaction(workUnitMarket.address, 2500, {
       from: accounts[1]
     });

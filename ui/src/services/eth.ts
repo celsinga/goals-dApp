@@ -14,8 +14,9 @@ export async function init(): Promise<string[]> {
 }
 
 export async function loadContract(abi: any,
-                             networks: { [id: string]: { address: string } }): Promise<Contract> {
-  const contractAddress = networks[await web3.eth.net.getId()].address;
+                                   networks: { [id: string]: { address: string } } | null,
+                                   address: string | null): Promise<Contract> {
+  const contractAddress = address || networks![await web3.eth.net.getId()].address;
   const contract = new web3.eth.Contract(abi, contractAddress);
   contract.options.from = web3.eth.defaultAccount!;
   contract.options.gas = 200000;

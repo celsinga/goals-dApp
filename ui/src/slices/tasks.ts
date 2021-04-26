@@ -10,10 +10,6 @@ const initialState: TasksState = {
   goalTasks: {}
 };
 
-export const init = createAsyncThunk('tasks/init', async () => {
-  await taskService.init();
-});
-
 export const listActive = createAsyncThunk('tasks/listActive', async (goalId: number) => {
   const tasks = await taskService.listActive(goalId);
   return { goalId, tasks };

@@ -4,13 +4,15 @@ import ethReducer from './slices/eth';
 import goalsReducer from './slices/goals';
 import tasksReducer from './slices/tasks';
 import notificationReducer from './slices/notification';
+import workUnitsReducer from './slices/workunits';
 
 const store = configureStore({
   reducer: {
     eth: ethReducer,
     goals: goalsReducer,
     tasks: tasksReducer,
-    notification: notificationReducer
+    notification: notificationReducer,
+    workUnits: workUnitsReducer
   }
 });
 

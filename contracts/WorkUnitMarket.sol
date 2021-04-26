@@ -2,9 +2,11 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
-contract WorkUnitMarket {
+import './WorkUnit.sol';
+
+contract WorkUnitMarket is ERC721Holder {
   struct Sale {
     IERC20 buyingToken;
     uint value;
@@ -12,23 +14,22 @@ contract WorkUnitMarket {
     address seller;
   }
 
-  IERC721 workUnit;
+  WorkUnit workUnit;
   mapping(uint => Sale) sales;
 
-  event SaleListed(uint indexed tokenId, address indexed buyer, address seller);
+  event SaleListed(uint indexed tokenId, address indexed buyer, address indexed seller);
   event SaleStarted(uint indexed tokenId, uint value, address buyingToken);
   event SaleCancelled(uint indexed tokenId);
   event SaleCompleted(uint indexed tokenId);
 
   constructor(address workUnitContract) {
-    workUnit = IERC721(workUnitContract);
+    workUnit = WorkUnit(workUnitContract);
   }
 
-  function listSale(uint tokenId, address buyer) public {
-    require(sales[tokenId].seller == address(0), "Sale exists for token");
+  function listSale(string calldata description, address buyer) public {
     require(buyer != msg.sender, "You're the seller, you can't be the buyer");
 
-    workUnit.transferFrom(msg.sender, address(this), tokenId);
+    uint tokenId = workUnit.create(description);
 
     sales[tokenId].seller = msg.sender;
     sales[tokenId].buyer = buyer;
@@ -62,7 +63,7 @@ contract WorkUnitMarket {
       require(sale.buyingToken.transfer(sale.buyer, sale.value),
               "Failed to refund funds from escrow. Shit.");
     }
-    workUnit.transferFrom(address(this), sale.seller, tokenId);
+    workUnit.burn(tokenId);
 
     delete sales[tokenId];
 
