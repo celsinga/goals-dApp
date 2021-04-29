@@ -3,8 +3,8 @@ import * as workUnitsService from '../services/workunits';
 import { RelevantTokens, WorkUnitSale } from '../services/workunits';
 
 const initialState: RelevantTokens = {
-  buying: {},
-  selling: {}
+  buying: null,
+  selling: null
 };
 
 export const list = createAsyncThunk('workUnits/list', async () => {
@@ -41,22 +41,28 @@ const workUnitsSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(list.fulfilled, (state, action) => {
-      state = action.payload;
+      state.buying = action.payload.buying;
+      state.selling = action.payload.selling;
     });
     builder.addCase(create.fulfilled, (state, action) => {
+      if (!state.selling) state.selling = {};
       state.selling[action.payload.id] = action.payload;
     });
     builder.addCase(startSale.fulfilled, (state, action) => {
+      if (!state.buying) state.buying = {};
       state.buying[action.payload.id] = action.payload;
     });
     builder.addCase(cancelSale.fulfilled, (state, action) => {
+      if (!state.buying) state.buying = {};
       if (!!state.buying[action.payload.id]) {
         state.buying[action.payload.id] = action.payload;
       } else {
+        if (!state.selling) state.selling = {};
         state.selling[action.payload.id] = action.payload;
       }
     });
     builder.addCase(completeSale.fulfilled, (state, action) => {
+      if (!state.buying) state.buying = {};
       state.buying[action.payload.id] = action.payload;
     });
   }

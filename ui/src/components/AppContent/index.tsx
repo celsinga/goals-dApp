@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import GoalsList from '../GoalsList';
+import WorkUnits from '../WorkUnits';
 import styles from './index.css';
 import Goal from '../Goal';
 import {
@@ -55,6 +56,9 @@ export default function AppContent() {
               </Route>
               <Route path="/goal/:id">
                 <Goal />
+              </Route>
+              <Route path="/workunits">
+                <WorkUnits />
               </Route>
             </Switch>
           </div>

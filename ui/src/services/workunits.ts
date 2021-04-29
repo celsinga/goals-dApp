@@ -8,10 +8,10 @@ let workUnitContract: Contract;
 let marketContract: Contract;
 
 export enum SaleStatus {
-  Listed,
-  Started,
-  Completed,
-  Cancelled
+  Listed = 'Listed',
+  Started = 'In Escrow',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled'
 }
 
 export interface BuyingToken {
@@ -35,8 +35,8 @@ export interface WorkUnitSale {
 export type TokenMap = { [id: number]: WorkUnitSale };
 
 export interface RelevantTokens {
-  selling: TokenMap,
-  buying: TokenMap 
+  selling: TokenMap | null,
+  buying: TokenMap | null
 }
 
 export async function init(): Promise<void> {

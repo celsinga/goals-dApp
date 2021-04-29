@@ -5,7 +5,6 @@ import { init as ethInit } from '../slices/eth';
 import { init as goalsInit } from '../slices/goals';
 import { init as tasksInit } from '../services/tasks';
 import { init as workUnitsInit } from '../services/workunits';
-import { list as workUnitsList } from '../slices/workunits';
 import Navbar from './Navbar';
 import AppContent from './AppContent';
 import Notification from './Notification';
@@ -35,9 +34,6 @@ function App() {
         unwrapResult(await dispatch(goalsInit()));
         await tasksInit();
         await workUnitsInit();
-
-        // TODO: this is temporary, pls remove at some point
-        // unwrapResult(await dispatch(workUnitsList()));
 
         setIsLoading(false);
       } catch (e) {
