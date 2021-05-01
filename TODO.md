@@ -6,3 +6,9 @@
 
 - Add account selector
 
+- Show spinner instead of "no goals" when waiting for a goal to be created
+- navigation to work units page
+- Assign work units to tasks
+
+- bypass metamask transaction confirmation dialog
+
