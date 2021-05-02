@@ -1,0 +1,12 @@
+.dialogContent {
+  & > div {
+    display: block;
+    margin-bottom: 16px;
+  }
+}
+
+.desc {
+  & textarea {
+    min-height: 200px;
+  }
+}

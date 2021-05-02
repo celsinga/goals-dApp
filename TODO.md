@@ -11,4 +11,4 @@
 - Assign work units to tasks
 
 - bypass metamask transaction confirmation dialog
-
+- hot module reload

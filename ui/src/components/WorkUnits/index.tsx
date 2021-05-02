@@ -3,6 +3,7 @@ import styles from './index.css';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import Tab from '@material-ui/core/Tab';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -19,9 +20,11 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../store';
 import { list as workUnitsList } from '../../slices/workunits';
 import { buyingTokensSelector, sellingTokensSelector } from '../../slices/workunits';
+import CreateWorkUnit from '../CreateWorkUnit';
 
 export default function WorkUnits() {
   const [showingSelling, setShowingSelling] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
   const dispatch = useAppDispatch();
   const tokens = useSelector(showingSelling ? sellingTokensSelector : buyingTokensSelector);
   const theme = useTheme();
@@ -58,7 +61,7 @@ export default function WorkUnits() {
         <Tab label='Selling' />
       </Tabs>
       <div className={styles.createCtr}>
-        <Button variant='contained' color='primary'>
+        <Button variant='contained' color='primary' onClick={() => setCreateOpen(true)}>
           Sell / Create New Unit
         </Button>
       </div>
@@ -100,7 +103,12 @@ export default function WorkUnits() {
           </TableBody>
         </Table>
       </TableContainer>
-
+      {tokensList.length === 0 && (
+        <Typography className={styles.emptyIndicator}>
+          No work unit tokens to show.
+        </Typography>
+      )}
+      <CreateWorkUnit open={createOpen} onClose={() => setCreateOpen(false)} />
     </Paper>
   );
 
