@@ -109,5 +109,70 @@ contract('GoalsHeavy', (accounts) => {
 
     assert.equal(receipt.logs[0].args.description, description, 'Description should be correct');   
   });
+
+  it('should bulk create goals', async () => {
+    const instance = await GoalsHeavy.deployed();
+
+    const goalsToCreate = [];
+    for (let i = 0; i < 10; i++) {
+      goalsToCreate.push({
+        description: `To get bulk stuff done ${i}`,
+        deadline: HOUR_FROM_NOW
+      });
+    }
+
+    let receipt = await instance.createBulk(goalsToCreate);
+    reportGas('Bulk Create', receipt);
+
+    assert.equal(receipt.logs.length, 10, 'Ten logs should be emitted');
+    for (let i = 0; i < 10; i++) {
+      assert.equal(receipt.logs[i].event, 'Created', 'Log should be Created event');
+      assert.equal(receipt.logs[i].args.goalId, i + 4, `Goal ID should be ${i + 4}`);
+    }
+  });
+
+  it('should not bulk create goals over limit', async () => {
+    const instance = await GoalsHeavy.deployed();
+
+    const goalsToCreate = [];
+    for (let i = 0; i < 51; i++) {
+      goalsToCreate.push({
+        description: `To get bulk stuff done ${i}`,
+        deadline: HOUR_FROM_NOW
+      });
+    }
+
+    try {
+      await instance.createBulk(goalsToCreate);
+    } catch (e) {
+      assert.equal(e.reason, 'Can only bulk create 50 goals at a time', 'Error must be of correct type');
+      return;
+    }
+
+    assert.fail('Operation completed');
+  });
+
+  it('should not bulk create goals with missing deadline', async () => {
+    const instance = await GoalsHeavy.deployed();
+
+    const goalsToCreate = [];
+    for (let i = 0; i < 10; i++) {
+      goalsToCreate.push({
+        description: `To get bulk stuff done ${i}`,
+        deadline: HOUR_FROM_NOW
+      });
+    }
+
+    goalsToCreate[4].deadline = 0;
+
+    try {
+      await instance.createBulk(goalsToCreate);
+    } catch (e) {
+      assert.equal(e.reason, 'Must have deadline', 'Error must be of correct type');
+      return;
+    }
+
+    assert.fail('Operation completed');
+  });
 });
 

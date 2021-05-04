@@ -9,6 +9,6 @@
 - Show spinner instead of "no goals" when waiting for a goal to be created
 - navigation to work units page
 - Assign work units to tasks
+- UI Action to approve buying token to market contract
 
 - bypass metamask transaction confirmation dialog
-- hot module reload

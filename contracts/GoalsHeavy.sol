@@ -35,6 +35,22 @@ contract GoalsHeavy {
     emit Created(goalId);
   }
 
+  function createBulk(Goal[] calldata goals) public returns(uint[] memory goalIds) {
+    require(goals.length <= 50, "Can only bulk create 50 goals at a time");
+    for (uint i = 0; i < goals.length; i++) {
+      require(goals[i].deadline > 0, "Must have deadline");
+    }
+
+    goalIds = new uint[](goals.length);
+
+    for (uint i = 0; i < goals.length; i++) {
+      goalIds[i] = ++goalCounts[msg.sender];
+      activeGoals[msg.sender][goalIds[i]] = goals[i];
+
+      emit Created(goalIds[i]);
+    }
+  }
+
   function updateInfo(uint goalId, uint deadline, string calldata description) public {
     Goal storage goal = activeGoals[msg.sender][goalId];
 
