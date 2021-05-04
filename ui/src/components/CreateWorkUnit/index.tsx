@@ -13,7 +13,7 @@ import { create } from '../../slices/workunits';
 
 interface IProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (created: boolean) => void;
 }
 
 export default function CreateWorkUnit({ open, onClose }: IProps) {
@@ -24,11 +24,11 @@ export default function CreateWorkUnit({ open, onClose }: IProps) {
   const [buyer, setBuyer] = useState('');
   const [errors, setErrors] = useState<{ desc?: string, buyer?: string }>({});
 
-  function handleClose() {
+  function handleClose(created: boolean) {
     setDesc('');
     setBuyer('');
     setErrors({});
-    onClose();
+    onClose(created);
   }
 
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
@@ -41,14 +41,14 @@ export default function CreateWorkUnit({ open, onClose }: IProps) {
       setErrors({ buyer: 'Enter valid address' });
     } else {
       dispatch(create({ description: desc, buyer }));
-      handleClose();
+      handleClose(true);
     }
   }
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={() => handleClose(false)}
       fullScreen={fullScreen}
       fullWidth
       maxWidth='md'
@@ -78,7 +78,7 @@ export default function CreateWorkUnit({ open, onClose }: IProps) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary'>
+          <Button onClick={() => handleClose(false)} color='primary'>
             Cancel
           </Button>
           <Button type='submit' color='primary'>

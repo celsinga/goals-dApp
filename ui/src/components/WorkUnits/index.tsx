@@ -48,6 +48,11 @@ export default function WorkUnits() {
 
   const showWorkerCol = isBig && !showingSelling;
 
+  function handleCreateClose(created: boolean) {
+    setCreateOpen(false);
+    if (created) setShowingSelling(true);
+  }
+
   return (
     <Paper className={styles.root}>
       <Tabs
@@ -108,7 +113,7 @@ export default function WorkUnits() {
           No work unit tokens to show.
         </Typography>
       )}
-      <CreateWorkUnit open={createOpen} onClose={() => setCreateOpen(false)} />
+      <CreateWorkUnit open={createOpen} onClose={handleCreateClose} />
     </Paper>
   );
 
