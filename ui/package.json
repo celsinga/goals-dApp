@@ -8,7 +8,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "*",
     "@material-ui/pickers": "^3.3.10",
-    "@pmmmwh/react-refresh-webpack-plugin": "github:pmmmwh/react-refresh-webpack-plugin#9079cee06f39965d7671b26307aaeb931e36f648",
+    "@pmmmwh/react-refresh-webpack-plugin": "https://github.com/pmmmwh/react-refresh-webpack-plugin#9079cee06f39965d7671b26307aaeb931e36f648",
     "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
