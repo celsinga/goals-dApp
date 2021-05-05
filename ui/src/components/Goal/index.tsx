@@ -7,15 +7,11 @@ import Paper from '@material-ui/core/Paper';
 import { useAppDispatch } from '../../store';
 import { activeGoalsSelector } from '../../slices/goals';
 import { useHistory } from 'react-router-dom';
-import pluralize from 'pluralize';
 import IconButton from '@material-ui/core/IconButton';
 import DoneOutlineOutlinedIcon from '@material-ui/icons/DoneOutlineOutlined';
 import { complete } from '../../slices/goals';
 import AddTask from '../AddTask';
 import TaskList from '../TaskList';
-import EditIcon from '@material-ui/icons/Edit';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 
 export default function Goal() {
@@ -29,48 +25,26 @@ export default function Goal() {
 
   if (!goal) return null;
 
-  const monthsRemaining = (new Date(goal.goal.deadline * 1000).getMonth()) - (currentDate.getMonth());
-
   async function handleCompleteClick() {
     await dispatch(complete(goal!.id));
     history.push('/');
   };
 
-  const defaultDeadlineDate = new Date();
-  defaultDeadlineDate.setHours(0,0,0,0);
-  defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
-  defaultDeadlineDate.setMinutes(defaultDeadlineDate.getMinutes() - 
-                                 defaultDeadlineDate.getTimezoneOffset());
-  let defaultDeadline = defaultDeadlineDate.toISOString();
+  console.log("current", currentDate.getDate(), currentDate.getMonth(), currentDate.getFullYear())
 
-  const [isCreating, setIsCreating] = useState(false);
+  // const goalDeadline = goal.goal.deadline;
+  // const difference = goalDeadline - currentDate.getTime();
+  // console.log(Math.ceil(difference / (1000 * 3600 * 24)));
+  // const daysRemaining = 
 
-  const changeDate = function() {
-    return (
-    <div>
-      <TextField
-                type="date"
-                value={deadline}
-                onChange={(ev) => setDeadline(ev.target.value)}
-                label="Deadline"
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <Button
-              type="submit"
-              color='primary'
-              variant='contained'
-              value={isCreating ? 'Creating...' : 'Create'}
-              disabled={ !new Date(deadline).getTime()}
-              >
-               Update Deadline
-          </Button>
-    </div>
-    )
-  }
 
-  const [deadline, setDeadline] = useState(defaultDeadline.substring(0, defaultDeadline.length - 8));
+  // const defaultDeadlineDate = new Date();
+  // defaultDeadlineDate.setHours(0,0,0,0);
+  // defaultDeadlineDate.setDate(defaultDeadlineDate.getDate() + 7);
+  // defaultDeadlineDate.setMinutes(defaultDeadlineDate.getMinutes() - 
+  //                                defaultDeadlineDate.getTimezoneOffset());
+  // let defaultDeadline = defaultDeadlineDate.toISOString();
+
 
   return (
     <div>
@@ -89,16 +63,11 @@ export default function Goal() {
             </div>
 
             <div style={{display: 'flex'}}>
-              {currentDate.getMonth() === new Date(goal.goal.deadline * 1000).getMonth() ? (
+              
                 <Typography style={{ color: '#eb4034', fontSize: '1em' }}>
-                  {(new Date(goal.goal.deadline * 1000).getDate()) - (currentDate.getDate())} days remaining
+                  {Math.ceil((new Date(goal.goal.deadline * 1000).getTime() - new Date().getTime()) / 86400000)} days remaining
                 </Typography>
-              ) : (
-                <Typography style={{color: '#eb4034'}}>
-                  {monthsRemaining} {pluralize('month', monthsRemaining)} remaining
-                </Typography>
-              )}
-              <EditIcon onClick={changeDate} style={{color: '#eb4034', fontSize: '1.2em', marginLeft: '7px'}} />
+              
             </div>
           </div>
 
