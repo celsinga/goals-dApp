@@ -56,7 +56,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "build-analyze": "webpack --mode production --analyze",
-    "start": "webpack serve --mode development --open"
+    "start": "webpack serve --mode development --open",
+    "start:given-provider": "webpack serve --mode development --env use_given_provider=yes --open"
   },
   "eslintConfig": {
     "extends": [

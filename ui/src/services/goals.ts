@@ -34,6 +34,20 @@ export async function create(goal: Goal): Promise<GoalWithId> {
   return { id, goal };
 }
 
+export async function createBulk(goals: Goal[]): Promise<GoalWithId[]> {
+  const receipt = await contract.methods.createBulk(goals).send();
+  const result = [];
+  for (let i = 0; i < goals.length; i++) {
+    const createdEvent = goals.length === 1 ?
+      receipt.events.Created : receipt.events.Created[i];
+    result.push({
+      id: parseInt(createdEvent.returnValues.goalId),
+      goal: goals[i]
+    });
+  }
+  return result;
+}
+
 export async function complete(goalId: number): Promise<void> {
   await contract.methods.complete(goalId).send();
 }

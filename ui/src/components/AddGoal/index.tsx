@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { create } from '../../slices/goals';
+import { addToPending, createBulk } from '../../slices/goals';
+import { Goal } from '../../services/goals';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import styles from './index.css';
 import { useAppDispatch } from '../../store';
 
-export default function AddGoal() {
+export default function AddGoal({ pendingGoals }: { pendingGoals: Goal[] }) {
   const dispatch = useAppDispatch();
 
   const defaultDeadline = new Date();
@@ -23,12 +24,16 @@ export default function AddGoal() {
     const deadlineDate = new Date(deadline);
     deadlineDate.setMinutes(deadlineDate.getMinutes() +
                             deadlineDate.getTimezoneOffset());
-    dispatch(create({
+    dispatch(addToPending({
       description: createDescription,
       deadline: Math.round(deadlineDate.getTime() / 1000)
     }));
 
     setCreateDescription('');
+  }
+
+  function handleSaveAll() {
+    dispatch(createBulk(pendingGoals.slice().reverse()));
   }
 
   return (
@@ -60,7 +65,15 @@ export default function AddGoal() {
               variant='contained'
               disabled={!createDescription || !new Date(deadline).getTime()}
             >
-              Add Goal
+              Add
+            </Button>
+            <Button
+              color='primary'
+              variant='contained'
+              disabled={pendingGoals.length === 0}
+              onClick={handleSaveAll}
+            >
+              Save All
             </Button>
           </div>
         </div>

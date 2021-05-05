@@ -18,6 +18,11 @@
   height: 100%;
 }
 
+.pendingGoalCard {
+  height: 100%;
+  opacity: 0.5;
+}
+
 .goalsCtr {
   margin: 32px 0px;
 }
