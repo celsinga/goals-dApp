@@ -5,10 +5,14 @@ import { AbiItem } from 'web3-utils';
 let web3: Web3;
 
 declare const ENV_TYPE: string;
+declare const USE_GIVEN_PROVIDER: string;
 
 export async function init(): Promise<string[]> {
-  await (window as any).ethereum.enable();
-  web3 = new Web3(ENV_TYPE === 'production' ? Web3.givenProvider : Web3.givenProvider);
+  const useGivenProvider = !!USE_GIVEN_PROVIDER || ENV_TYPE === 'production';
+
+  if (useGivenProvider) await (window as any).ethereum.enable();
+  web3 = new Web3(useGivenProvider ? Web3.givenProvider : 'ws://localhost:7545');
+
   const accounts = await web3.eth.getAccounts();
   web3.eth.defaultAccount = accounts[0];
   return accounts;
@@ -20,6 +24,6 @@ export async function loadContract(abi: any,
   const contractAddress = address || networks![await web3.eth.net.getId()].address;
   const contract = new web3.eth.Contract(abi, contractAddress);
   contract.options.from = web3.eth.defaultAccount!;
-  contract.options.gas = 200000;
+  contract.options.gas = 2000000;
   return contract;
 }

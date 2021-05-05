@@ -12,8 +12,7 @@ module.exports = (env, options) => {
     module: {
       rules: [
         {
-          test: /(\.tsx|\.ts)$/,
-          use: [
+          test: /(\.tsx|\.ts)$/, use: [
             {
               loader: 'ts-loader',
               options: {
@@ -76,7 +75,8 @@ module.exports = (env, options) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'ENV_TYPE': JSON.stringify(process.env.NODE_ENV)
+        'ENV_TYPE': JSON.stringify(process.env.NODE_ENV),
+        'USE_GIVEN_PROVIDER': JSON.stringify(env.use_given_provider),
       }),
       new CopyPlugin({
         patterns: [

@@ -8,6 +8,10 @@
   margin-top: 8px;
   display: flex;
   align-items: center;
+
+  & button {
+    margin-left: 8px;
+  }
 }
 
 .grow {
