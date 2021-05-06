@@ -9,11 +9,9 @@ import { TaskWithId } from '../../services/tasks';
 import { listActive, updateDone, remove, tasksSelector } from '../../slices/tasks';
 import { useHistory } from 'react-router-dom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ClearIcon from '@material-ui/icons/Clear';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useParams } from 'react-router-dom';
 import EditTaskDialog from '../EditTaskDialog';
 
 export default function TaskList({ goalId }: { goalId: number }) {
