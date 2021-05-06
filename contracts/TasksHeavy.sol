@@ -30,6 +30,22 @@ contract TasksHeavy {
     emit Created(goalId, taskId);
   }
 
+  function createBulk(uint goalId, string[] calldata descriptions) public returns(uint[] memory taskIds) {
+    require(descriptions.length <= 50, "Can only bulk create 50 tasks at a time");
+    require((taskCounts[msg.sender][goalId] + descriptions.length) <= maxTasksPerGoal,
+            "Max tasks per goal is 100");
+
+    taskIds = new uint[](descriptions.length);
+
+    for (uint i = 0; i < descriptions.length; i++) {
+      taskIds[i] = ++taskCounts[msg.sender][goalId];
+      tasks[msg.sender][goalId][taskIds[i]].description = descriptions[i];
+      tasks[msg.sender][goalId][taskIds[i]].active = true;
+
+      emit Created(goalId, taskIds[i]);
+    }
+  }
+
   function get(uint goalId, uint taskId) private view returns(Task storage task) {
     task = tasks[msg.sender][goalId][taskId];
     require(task.active, "Task must be active");

@@ -131,5 +131,63 @@ contract('TasksHeavy', (accounts) => {
     assert.equal(tasks.length, 0, 'No tasks should exist');
   });
 
+  it('should bulk create tasks', async () => {
+    const instance = await TasksHeavy.deployed();
+
+    const tasksToCreate = [];
+    for (let i = 0; i < 10; i++) {
+      tasksToCreate.push(`To get bulk stuff done ${i}`);
+    }
+
+    let receipt = await instance.createBulk(30, tasksToCreate);
+    reportGas('Bulk Create', receipt);
+
+    assert.equal(receipt.logs.length, 10, 'Ten logs should be emitted');
+    for (let i = 0; i < 10; i++) {
+      assert.equal(receipt.logs[i].event, 'Created', 'Log should be Created event');
+      assert.equal(receipt.logs[i].args.goalId, 30, `Goal ID should be 30`);
+      assert.equal(receipt.logs[i].args.taskId, i + 1, `Task ID should be ${i + 1}`);
+    }
+  });
+
+  it('should not bulk create tasks over bulk limit', async () => {
+    const instance = await TasksHeavy.deployed();
+
+    const tasksToCreate = [];
+    for (let i = 0; i < 51; i++) {
+      tasksToCreate.push(`To get bulk stuff done ${i}`);
+    }
+
+    try {
+      await instance.createBulk(30, tasksToCreate);
+    } catch (e) {
+      assert.equal(e.reason, 'Can only bulk create 50 tasks at a time', 'Error must be of correct type');
+      return;
+    }
+
+    assert.fail('Operation completed');
+  });
+
+  it('should not bulk create tasks over goal limit', async () => {
+    const instance = await TasksHeavy.deployed();
+
+    const tasksToCreate = [];
+    for (let i = 0; i < 40; i++) {
+      tasksToCreate.push(`To get bulk stuff done ${i}`);
+    }
+
+    await instance.createBulk(30, tasksToCreate);
+    await instance.createBulk(30, tasksToCreate);
+
+    try {
+      await instance.createBulk(30, tasksToCreate);
+    } catch (e) {
+      assert.equal(e.reason, 'Max tasks per goal is 100', 'Error must be of correct type');
+      return;
+    }
+
+    assert.fail('Operation completed');
+  });
+
 });
 
