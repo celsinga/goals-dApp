@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { addToPending, createBulk } from '../../slices/goals';
-import { Goal } from '../../services/goals';
+import { Goal, GoalWithId } from '../../services/goals';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import styles from './index.css';
 import { useAppDispatch } from '../../store';
 
-export default function AddGoal({ pendingGoals }: { pendingGoals: Goal[] }) {
+export default function AddGoal({ pendingGoals, saveInProgress }: { pendingGoals: Goal[], saveInProgress: boolean }) {
   const dispatch = useAppDispatch();
 
   const defaultDeadline = new Date();
@@ -63,14 +63,14 @@ export default function AddGoal({ pendingGoals }: { pendingGoals: Goal[] }) {
               type="submit"
               color='primary'
               variant='contained'
-              disabled={!createDescription || !new Date(deadline).getTime()}
+              disabled={!createDescription || !new Date(deadline).getTime() || saveInProgress}
             >
               Add
             </Button>
             <Button
               color='primary'
               variant='contained'
-              disabled={pendingGoals.length === 0}
+              disabled={pendingGoals.length === 0 || saveInProgress}
               onClick={handleSaveAll}
             >
               Save All

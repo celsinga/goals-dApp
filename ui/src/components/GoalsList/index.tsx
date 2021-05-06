@@ -1,5 +1,10 @@
 import { useSelector } from 'react-redux';
-import { activeGoalsSelector, pendingGoalsSelector } from '../../slices/goals';
+import {
+  activeGoalsSelector,
+  pendingGoalsSelector,
+  removeFromPending,
+  saveInProgSelector
+} from '../../slices/goals';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -12,13 +17,13 @@ import styles from './index.css';
 import { Link } from "react-router-dom";
 import AddGoal from '../AddGoal';
 import { useAppDispatch } from '../../store';
-import { removeFromPending } from '../../slices/goals';
 
 export default function GoalsList() {
   const dispatch = useAppDispatch();
 
   const activeGoals = useSelector(activeGoalsSelector);
   const pendingGoals = useSelector(pendingGoalsSelector);
+  const saveInProgress = useSelector(saveInProgSelector);
 
   function handlePendingDelete(index: number) {
     dispatch(removeFromPending(index));
@@ -26,7 +31,10 @@ export default function GoalsList() {
 
   return (
     <div>
-      <AddGoal pendingGoals={pendingGoals} />
+      <AddGoal
+        pendingGoals={pendingGoals}
+        saveInProgress={saveInProgress}
+      />
       {activeGoals.length === 0 && pendingGoals.length == 0 ? (
         <div className={styles.goalsEmpty}>
           <Typography>No goals! Time to get to work!</Typography>
@@ -41,6 +49,7 @@ export default function GoalsList() {
                     <IconButton
                       className={styles.deleteBtn}
                       onClick={() => handlePendingDelete(k)}
+                      disabled={saveInProgress}
                     >
                       <CloseIcon />
                     </IconButton>
