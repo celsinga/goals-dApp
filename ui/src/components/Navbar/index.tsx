@@ -33,7 +33,9 @@ export default function Navbar() {
               <CircularProgress size={30} />
             </Tooltip>
           )}
-          <Button href="http://localhost:3000/workunits">Work Units</Button>
+          <Link to="/workunits" className={styles.rootLink}>
+            <Button>Work Units</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

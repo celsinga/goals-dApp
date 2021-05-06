@@ -1,6 +1,8 @@
 import { useSelector } from 'react-redux';
 import { activeGoalsSelector, pendingGoalsSelector } from '../../slices/goals';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,10 +11,18 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import styles from './index.css';
 import { Link } from "react-router-dom";
 import AddGoal from '../AddGoal';
+import { useAppDispatch } from '../../store';
+import { removeFromPending } from '../../slices/goals';
 
 export default function GoalsList() {
+  const dispatch = useAppDispatch();
+
   const activeGoals = useSelector(activeGoalsSelector);
   const pendingGoals = useSelector(pendingGoalsSelector);
+
+  function handlePendingDelete(index: number) {
+    dispatch(removeFromPending(index));
+  }
 
   return (
     <div>
@@ -28,6 +38,12 @@ export default function GoalsList() {
               <Grid item key={k} xs={12} sm={4} md={3}>
                 <Card className={styles.pendingGoalCard}>
                   <CardContent className={styles.content}>
+                    <IconButton
+                      className={styles.deleteBtn}
+                      onClick={() => handlePendingDelete(k)}
+                    >
+                      <CloseIcon />
+                    </IconButton>
                     <Typography className={styles.goalId} color='textSecondary'>
                       Pending Goal 
                     </Typography>
