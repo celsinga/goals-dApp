@@ -7,7 +7,7 @@ const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 module.exports = (env, options) => {
   const isDevelopment = options.mode === 'development';
-  return {
+  const result = {
     entry: './src/index.tsx',
     module: {
       rules: [
@@ -77,6 +77,7 @@ module.exports = (env, options) => {
       new webpack.DefinePlugin({
         'ENV_TYPE': JSON.stringify(process.env.NODE_ENV),
         'USE_GIVEN_PROVIDER': JSON.stringify(env.use_given_provider),
+        'USE_HASH_ROUTER': JSON.stringify(env.use_hash_router)
       }),
       new CopyPlugin({
         patterns: [
@@ -90,8 +91,7 @@ module.exports = (env, options) => {
       new HtmlWebpackPlugin({
         template: 'public/index.html',
         publicPath: '/'
-      }),
-      isDevelopment && new ReactRefreshWebpackPlugin()
+      })
     ],
     target: 'web',
     devServer: {
@@ -106,4 +106,6 @@ module.exports = (env, options) => {
       path: path.resolve(__dirname, 'dist')
     }
   };
+  if (isDevelopment) result.plugins.push(new ReactRefreshWebpackPlugin());
+  return result;
 };

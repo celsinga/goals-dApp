@@ -13,7 +13,9 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import { ThemeProvider } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue'; 
 import purple from '@material-ui/core/colors/purple'; 
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
+
+declare const USE_HASH_ROUTER: string;
 
 function App() {
   const dispatch = useAppDispatch();
@@ -47,14 +49,26 @@ function App() {
     return null;
   }
 
+  const content = (
+    <>
+      <Navbar />
+      <AppContent />
+      <Notification />
+    </>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <Router>
-          <Navbar />
-          <AppContent />
-          <Notification />
-        </Router>
+        {!!USE_HASH_ROUTER ? (
+          <HashRouter>
+            {content}
+          </HashRouter>
+        ) : (
+          <BrowserRouter>
+            {content}
+          </BrowserRouter>
+        )}
       </div>
     </ThemeProvider>
   );
