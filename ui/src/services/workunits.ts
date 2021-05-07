@@ -40,10 +40,12 @@ export interface RelevantTokens {
 }
 
 export async function init(): Promise<void> {
-  workUnitContract = await ethService.loadContract(workUnitContractInfo.abi,
+  workUnitContract = await ethService.loadContract('WorkUnit',
+                                                   workUnitContractInfo.abi,
                                                    workUnitContractInfo.networks,
                                                    null);
-  marketContract = await ethService.loadContract(marketContractInfo.abi,
+  marketContract = await ethService.loadContract('WorkUnitMarket',
+                                                 marketContractInfo.abi,
                                                  marketContractInfo.networks,
                                                  null);
 }
@@ -93,7 +95,7 @@ export async function completeSale(token: WorkUnitSale): Promise<WorkUnitSale> {
 }
 
 export async function getBuyingToken(contractAddress: string): Promise<BuyingToken> {
-  const tokenContract = await ethService.loadContract(erc20Abi, null, contractAddress);
+  const tokenContract = await ethService.loadContract('ERC20', erc20Abi, null, contractAddress);
   return {
     name: await tokenContract.methods.name.call(),
     symbol: await tokenContract.methods.symbol.call(),

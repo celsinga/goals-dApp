@@ -14,12 +14,14 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue'; 
 import purple from '@material-ui/core/colors/purple'; 
 import { BrowserRouter, HashRouter } from 'react-router-dom';
+import PreloaderView from './PreloaderView';
 
 declare const USE_HASH_ROUTER: string;
 
 function App() {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   const theme = createMuiTheme({
     palette: {
@@ -36,17 +38,21 @@ function App() {
         unwrapResult(await dispatch(goalsInit()));
         await tasksInit();
         await workUnitsInit();
-
-        setIsLoading(false);
       } catch (e) {
+        setError(e);
         console.error('Failed to init!');
         console.error(e);
       }
+      setIsLoading(false);
     })();
   }, [dispatch]);
 
-  if (isLoading) {
-    return null;
+  if (isLoading || !!error) {
+    return (
+      <ThemeProvider theme={theme}>
+        <PreloaderView error={error} /> 
+      </ThemeProvider>
+    );
   }
 
   const content = (

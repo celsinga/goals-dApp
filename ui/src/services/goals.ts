@@ -15,7 +15,7 @@ export interface GoalWithId {
 let contract: Contract;
 
 export async function init(): Promise<GoalWithId[]> {
-  contract = await ethService.loadContract(contractInfo.abi, contractInfo.networks, null);
+  contract = await ethService.loadContract('Goals', contractInfo.abi, contractInfo.networks, null);
   return await listActive();
 }
 

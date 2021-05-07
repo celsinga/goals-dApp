@@ -16,7 +16,7 @@ export interface TaskWithId {
 let contract: Contract;
 
 export async function init(): Promise<void> {
-  contract = await ethService.loadContract(contractInfo.abi, contractInfo.networks, null);
+  contract = await ethService.loadContract('Tasks', contractInfo.abi, contractInfo.networks, null);
 }
 
 export async function deleteTask(goalId: number, taskId: number): Promise<void> {

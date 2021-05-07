@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorCtr {
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  & svg {
+    font-size: 8rem;
+    color: #ff5656;
+  }
+}
