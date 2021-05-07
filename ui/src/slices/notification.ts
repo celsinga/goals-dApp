@@ -18,7 +18,7 @@ const initialState: NotifyState = {
 const notificationInfo = [
   { action: goalsSlice.createBulk, desc: 'Goal creation' },
   { action: goalsSlice.complete, desc: 'Goal completion' },
-  { action: tasksSlice.create, desc: 'Task creation' },
+  { action: tasksSlice.createBulk, desc: 'Task creation' },
   { action: tasksSlice.updateDone, desc: 'Task update' },
   { action: tasksSlice.updateDesc, desc: 'Task update' },
   { action: tasksSlice.remove, desc: 'Task removal' },

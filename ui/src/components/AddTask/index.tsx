@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { create } from '../../slices/tasks';
+import { useSelector } from 'react-redux';
+import {
+  addToPending,
+  createBulk,
+  pendingSelector,
+  tasksSelector,
+  saveInProgSelector
+} from '../../slices/tasks';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import styles from './index.css';
@@ -9,20 +16,27 @@ export default function AddTask({ goalId }: { goalId: number }) {
   const dispatch = useAppDispatch();
 
   const [createDescription, setCreateDescription] = useState('');
+  const tasks = useSelector(tasksSelector(goalId));
+  const pendingTasks = useSelector(pendingSelector(goalId));
+  const saveInProgress = useSelector(saveInProgSelector);
 
-  async function handleCreateSubmit(ev: React.FormEvent<HTMLFormElement>) {
+  function handleAddSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
 
-    dispatch(create({
-      description: createDescription,
+    dispatch(addToPending({
+      desc: createDescription,
       goalId
     }));
     setCreateDescription('');
   }
 
+  function handleCreate() {
+    dispatch(createBulk({ goalId, descriptions: pendingTasks }));
+  }
+
   return (
     <div className={styles.addCtr}>
-      <form onSubmit={handleCreateSubmit} className={styles.addForm}>
+      <form onSubmit={handleAddSubmit} className={styles.addForm}>
         <TextField
           type="text"
           name="description"
@@ -37,11 +51,19 @@ export default function AddTask({ goalId }: { goalId: number }) {
               type="submit"
               color='primary'
               variant='contained'
-              disabled={!createDescription}
+              disabled={!createDescription || saveInProgress}
             >
               Add Task
             </Button>
           </div>
+          <Button
+            color='primary'
+            variant='contained'
+            disabled={pendingTasks.length === 0 || saveInProgress}
+            onClick={handleCreate}
+          >
+            Save All
+          </Button>
         </div>
       </form>
     </div>

@@ -30,17 +30,22 @@ export async function listActive(goalId: number): Promise<TaskWithId[]> {
   });
 }
 
-export async function create(goalId: number, description: string): Promise<TaskWithId> {
-  const receipt = await contract.methods.create(goalId, description).send();
-  const id = parseInt(receipt.events.Created.returnValues.taskId);
-  return {
-    id,
-    task: {
-      description,
-      done: false,
-      active: true
-    }
-  };
+export async function createBulk(goalId: number, descriptions: string[]): Promise<TaskWithId[]> {
+  const receipt = await contract.methods.createBulk(goalId, descriptions).send();
+  const result = [];
+  for (let i = 0; i < descriptions.length; i++) {
+    const createdEvent = descriptions.length === 1 ?
+      receipt.events.Created : receipt.events.Created[i];
+    result.push({
+      id: parseInt(createdEvent.returnValues.taskId),
+      task: {
+        description: descriptions[i],
+        done: false,
+        active: true
+      }
+    });
+  }
+  return result;
 }
 
 export async function updateDone(goalId: number, taskId: number, done: boolean): Promise<void> {
