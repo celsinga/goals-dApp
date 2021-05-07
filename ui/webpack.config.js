@@ -75,7 +75,7 @@ module.exports = (env, options) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'ENV_TYPE': JSON.stringify(process.env.NODE_ENV),
+        'ENV_TYPE': JSON.stringify(options.mode),
         'USE_GIVEN_PROVIDER': JSON.stringify(env.use_given_provider),
         'USE_HASH_ROUTER': JSON.stringify(env.use_hash_router)
       }),

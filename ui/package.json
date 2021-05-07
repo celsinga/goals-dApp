@@ -55,7 +55,8 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "build-ipfs": "webpack --mode production --env use_hash_router=yes",
+    "build-ipfs": "rm -rf ./dist && webpack --mode production --env use_hash_router=yes",
+    "deploy-ipfs": "ipfs add -r ./dist",
     "build-analyze": "webpack --mode production --analyze",
     "start": "webpack serve --mode development --open",
     "start:given-provider": "webpack serve --mode development --env use_given_provider=yes --open"
