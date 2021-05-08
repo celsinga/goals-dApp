@@ -8,10 +8,10 @@ export default function PreloaderView({ error }: { error: Error | null }) {
   let errorMessage = '';
   if (!!error) {
     switch (error.name) {
-      case NoProviderError.prototype.constructor.name:
+      case NoProviderError.errName:
         errorMessage = 'Could not access Ethereum provider. Ensure your wallet is installed and initialized.';
         break;
-      case NoContractOnNetworkError.prototype.constructor.name:
+      case NoContractOnNetworkError.errName:
         errorMessage = `Could not find contract on current network. Ensure you\'re connected to Goerli or a local test network.\n(${error.message})`
         break;
       default:

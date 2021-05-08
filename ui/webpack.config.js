@@ -70,7 +70,7 @@ module.exports = (env, options) => {
         http: require.resolve('stream-http'),
         crypto: require.resolve('crypto-browserify'),
         stream: require.resolve('stream-browserify'),
-        assert: require.resolve('assert/'),
+        assert: require.resolve('assert/')
       },
     },
     plugins: [

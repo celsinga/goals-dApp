@@ -10,3 +10,5 @@
 - navigation to work units page
 - Assign work units to tasks
 - UI Action to approve buying token to market contract
+
+- bulk update task done

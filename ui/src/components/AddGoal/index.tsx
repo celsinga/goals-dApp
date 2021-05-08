@@ -58,7 +58,7 @@ export default function AddGoal({ pendingGoals, saveInProgress }: { pendingGoals
             }}
           />
           <div className={styles.grow}></div>
-          <div>
+          <div className={styles.btnCtr}>
             <Button
               type="submit"
               color='primary'

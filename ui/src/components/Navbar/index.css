@@ -8,7 +8,6 @@
 
 .toolbar {
   display: flex;
-  justify-content: space-between;
   background-color: #3f51b5;
 }
 .logo {
@@ -22,4 +21,12 @@
 .rootLink {
   text-decoration: none;
   color: white;
+}
+
+.rootLinkCtr {
+  flex-grow: 1;
+}
+
+.progress {
+  margin-left: 16px;
 }

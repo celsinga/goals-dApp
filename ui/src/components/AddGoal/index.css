@@ -8,9 +8,19 @@
   margin-top: 8px;
   display: flex;
   align-items: center;
+}
+
+.btnCtr {
+  text-align: right;
 
   & button {
     margin-left: 8px;
+  }
+}
+
+@media only screen and (max-width: 411px) {
+  .btnCtr button {
+    margin-bottom: 8px;
   }
 }
 

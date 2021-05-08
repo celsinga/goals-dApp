@@ -5,16 +5,18 @@ import { AbiItem } from 'web3-utils';
 let web3: Web3;
 
 export class NoProviderError extends Error {
+  static errName = 'NoProviderError';
   constructor() {
     super();
-    this.name = 'NoProviderError';
+    this.name = NoProviderError.errName;
   }
 };
 
 export class NoContractOnNetworkError extends Error {
+  static errName = 'NoContractOnNetworkError';
   constructor(msg: string) {
     super(msg);
-    this.name = 'NoContractOnNetworkError';
+    this.name = NoContractOnNetworkError.errName;
   }
 };
 
