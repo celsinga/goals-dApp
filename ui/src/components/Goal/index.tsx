@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
@@ -14,10 +15,13 @@ import TaskList from '../TaskList';
 import EditIcon from '@material-ui/icons/Edit';
 
 
+
 export default function Goal() {
+  const [goalMenuInfo, setGoalMenuInfo] = useState<{ anchor: HTMLElement, id: number } | null>(null);
   const dispatch = useAppDispatch();
   const activeGoals = useSelector(activeGoalsSelector);
   const history = useHistory();
+  const [editGoal, setEditGoal] = useState<{ initContent: string, id: number } | null>(null);
 
   const { id } = useParams<{ id: string }>();
   const goal = activeGoals.find((v) => v.id === parseInt(id));
@@ -28,6 +32,13 @@ export default function Goal() {
     await dispatch(complete(goal!.id));
     history.push('/');
   };
+
+  async function handleEditGoalClick(goalId: number) {
+    setEditGoal({
+      id: goalId,
+      initContent: activeGoals.find((v) => v.id === goalId)!.goal.description
+    });
+  }
 
   return (
     <div>
@@ -56,7 +67,7 @@ export default function Goal() {
 
           <div>
             <IconButton>
-              <EditIcon />
+              <EditIcon onClick={() => handleEditGoalClick(goalMenuInfo!.id)} />
             </IconButton>
             <IconButton onClick={handleCompleteClick}>
               <DoneOutlineOutlinedIcon />
